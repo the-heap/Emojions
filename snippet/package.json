@@ -1,0 +1,25 @@
+{
+  "name": "snippet",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": {},
+  "license": "MIT",
+
+  "scripts": {
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "gitDir": "../",
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+
+  "devDependencies": {
+    "husky": "^0.13.3",
+    "lint-staged": "^3.4.0",
+    "prettier": "^1.2.2"
+  }
+
+}
