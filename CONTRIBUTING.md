@@ -2,17 +2,16 @@
 If you want to contribute you should follow these steps.
 
 1. Go to our [issues](https://github.com/the-heap/Emojions/issues/)
-2. Look for issues that might appeal to you / aren't already being worked on.
-3. Assign an issue to yourself and comment to let me know you're tackling something
+2. Look for issues that might appeal to you. 
+3. Assign the issue to yourself and feel free to comment to let me know you're tackling something / you're approach.
 4. Fork the repo to your own profile and work on a branch there.
 5. (optional) Comment along as you work, if you like, to update on progress (Screenshots, thoughts, questions etc)
 6. Make a PR!
 
 # Commit Message guidlines.
 
-- Read this [doc](https://chris.beams.io/posts/git-commit/) over and consider some of it's pointing when commiting code. 
+- Read this [doc](https://chris.beams.io/posts/git-commit/) over and consider some of it's points when commiting code. 
 - It's worth it, trust me. 
-- I'm open to new of doing things, but the more concise your git commit messages are, the better.
 - In case you didn't read the document, I'm going to copy + paste seven rules to consider:
 
 ```
@@ -41,10 +40,11 @@ Your pull requests should be _very_ description. Here are some general tips.
 
 
 # Commenting
+
 No jerks.
 
 # Project Opinions 
 
-While The Heap intends to be open to all ideas and opinions; project opinions from contributors (that is, the direction of the project / what we're building) can only be considered to a point. Project opinions are any thoughts from contributors that are directed at changing _what_ we're building. Unfortunately the limited duration of these projects don't really allow for changing the actual project themselves. 
+While The Heap intends to be open to all ideas and opinions; project opinions from contributors (that is, the direction of the project / what we're building) can only be considered to a point. Project opinions are any thoughts from contributors that are directed at changing _what_ we're building. Unfortunately the limited duration of these projects don't really allow for large  changes to the actual project idea. 
 
-We know that we can't please everybody with what we are trying to build, the main goal here is to make projects of all kinds open and accessible to people of all skill level, that they may contribute and work together. Learn some cool stuff. You know what I mean.
+We know that we can't please everybody with what we are trying to build, the main goal here is to make projects open and accessible to people of all skill levels, that they may contribute and work together. Learn some cool stuff. You know what I mean.
