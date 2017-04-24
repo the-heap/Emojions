@@ -12,6 +12,7 @@ A "reaction bar" in which users can click on an emoji and increment it's respect
 
 1. Understanding the [project / product](https://github.com/the-heap/Emojions/issues/1)
 2. Understanding how to [contribute](./CONTRIBUTING.md)
+3. Read Project Components below, for getting setup.
 
 # Terminology
 
@@ -22,3 +23,23 @@ A "reaction bar" in which users can click on an emoji and increment it's respect
 **Client** : Where a user can go to customize their snippet (the emoji's that show up.)
 
 **Api** : A wrapper for the database — it allows a user of the emoji bar to store the click count ... somewhere, and then retrieve those amount when they like. 
+
+# Project Setup
+
+**Snippet** : 
+
+```sh
+cd snippet
+npm install
+```
+
+To run the snippet and see it working, you'll need to open the `example.html` page in the build folder to test.
+
+**Client**
+
+// Todo
+
+**Api**
+
+// Todo
+
