@@ -22,3 +22,12 @@ Let's get setup:
 2. Go into your terminal and navigate to `./client`. Run: `elm reactor`.
 3. Go to `localhost:8000`. Elm should download whatever packages you need to run the project. 
 4. Using elm reactor you can navigate our app. I recommend clicking on the main entry point, which should be `main.elm`. 
+
+
+## Resources
+
+I have been reading and listening to talks / videos about elm for a while. I will add resources about them as I go.
+
+- The [elm docs](http://elm-lang.org/docs) are really good.
+- More [elm docs](https://guide.elm-lang.org/install.html).
+- [Introduction to the elm architecture] (https://css-tricks.com/introduction-elm-architecture-build-first-application/) - I like this tutorial. I'm using it as I write this!
