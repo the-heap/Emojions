@@ -34,7 +34,11 @@ To run the snippet and see it working, you'll need to open the `example.html` pa
 
 **Client**
 
-// Todo
+1. [Install Elm](https://guide.elm-lang.org/install.html) (follow this entire guide if you can!)
+2. Go into your terminal and navigate to the folder `./client` in this repo. 
+3. Run: `elm reactor`.
+4. Go to `localhost:8000`. Elm should download whatever packages you need to run the project. 
+5. Using elm reactor you can navigate our app. I recommend clicking on the main entry point, which should be `main.elm`. 
 
 **Api**
 
