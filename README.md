@@ -67,7 +67,7 @@ No testing yet...
 
 Currently only the **snippet** portion has automated testing setup.
 
-Now, the snippet is _not_ a JavaScript module, so the testing offered a challenge. The way it was solved is this case was to have a conditional export of each component that requires testing. You'll notice at the end of the snippet file `snippet/index.js` a series of lines that look like this:
+Now, the snippet is _not_ a JavaScript module, so the testing offers a challenge. It is solved by having a conditional export of each component that requires testing. You'll notice at the end of the snippet file `snippet/index.js` a series of lines that look like this:
 
 ```javascript
 exports.pipe = pipe
@@ -77,20 +77,20 @@ This will make `pipe()` function importable from the `.test.js` files. It is set
 
 We will be using the standard file structure for jest which includes naming test files like: `filename.test.js`
 
-These files will be placed in the `snippet/__tests__` directory.
+These files will be placed in the `snippet/test` directory.
 
 Because of the small size of tested file we will be keeping test suites to single functions.
 
 ### Testing Stack
 
-1. [Jest](http://facebook.github.io/jest/): is our testing framework. It has some issues, but it's the new guy in town and relatively easy to pick.
+1. [Jest](http://facebook.github.io/jest/): is our testing framework.
 2. [Sinon](http://sinonjs.org/): this is a standalone spy, stub, and mocking framework for JavaScript. It's useful as a test 'probe'.
 
 ### How To Add Tests
 
 1. I've added a new function! Arg! What do I do?
 2. First export the function in testing exports section at the bottom of the file: `exports.functionName = functionName`
-3. Now create a new file in the `snippet/__tests__` with the name in the format `functionName.test.js`
+3. Now create a new file in the `snippet/test` with the name in the format `functionName.test.js`
 4. In the test file import the function `const functionName = require('../index.js').functionName`
 5. The basic format for testing is: `describe('functionName()', () => it("returns X"))`
 6. Nested `describes()` are allowed and encouraged.

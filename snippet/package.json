@@ -17,12 +17,12 @@
   },
   "jest": {
     "verbose": true,
-    "setupFiles": ["./jestSetup.js"],
+    "setupFiles": ["./test/setup.js"],
     "collectCoverage": true,
     "coverageDirectory": "<rootDir>/coverage/",
     "collectCoverageFrom": [
       "**/*.js",
-      "!**/jestSetup.js",
+      "!**/setup.js",
       "!**/coverage/**",
       "!**/node_modules/**"
     ],

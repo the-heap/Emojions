@@ -9,7 +9,7 @@ describe("pipe()", () => {
     expect(typeof result).toBe("function");
   });
 
-  it("all provided functions are called once when result function is called", () => {
+  it("calls all functions that are provided as arguments", () => {
     const calledResult = result();
     expect(functionSpy1.calledOnce).toBe(true);
     expect(functionSpy2.calledOnce).toBe(true);
