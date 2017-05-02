@@ -4,9 +4,9 @@
   "main": "index.js",
   "repository": {},
   "license": "MIT",
-
   "scripts": {
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "test": "jest"
   },
   "lint-staged": {
     "gitDir": "../",
@@ -15,11 +15,31 @@
       "git add"
     ]
   },
-
+  "jest": {
+    "verbose": true,
+    "setupFiles": ["./test/setup.js"],
+    "collectCoverage": true,
+    "coverageDirectory": "<rootDir>/coverage/",
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/setup.js",
+      "!**/coverage/**",
+      "!**/node_modules/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 30,
+        "functions": 30,
+        "lines": 30,
+        "statements": 30
+      }
+    }
+  },
   "devDependencies": {
     "husky": "^0.13.3",
+    "jest": "^19.0.2",
     "lint-staged": "^3.4.0",
-    "prettier": "^1.2.2"
+    "prettier": "^1.2.2",
+    "sinon": "^2.1.0"
   }
-
 }
