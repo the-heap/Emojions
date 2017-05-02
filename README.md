@@ -4,7 +4,7 @@ Welcome to one of THE HEAP's open projects! For the month of May We're building 
 
 Before we get into the project itself, let's get to know our collaborative environment:
 - Most of the activity regarding the project's status happens _right here_ on github, especially on the [issues](https://github.com/the-heap/Emojions/issues) page. Here you can see a [roadmap](https://github.com/the-heap/Emojions/issues/1) for our project, pick out issues, and keep an eye on conversations.
-- The Heap will also be making videos to document the process (live coding, demonstrations, "office hours" and so on). Subscribe to the [Youtube Channel](https://www.youtube.com/channel/UCIaeBxFZOzLA20sSAUENXRg). 
+- The Heap will also be making videos to document the process (live coding, demonstrations, "office hours" and so on). Subscribe to the [Youtube Channel](https://www.youtube.com/channel/UCIaeBxFZOzLA20sSAUENXRg).
 - The Heap has a [Twitter account to tweet](https://twitter.com/theheap_) both about projects and programming (and life, the universe...). Follow us to stay in the loop
 
 For this project, our goal is to create an _embeddable emoji bar_ that users on any website can interact with. This was blatantly inspired by Github issues, and Slack. This is an example image from a Github issue page:
@@ -23,7 +23,9 @@ To contribute successfully to this project it might take a bit of time to setup 
 
 # Project Setup
 
-**Snippet** : 
+One important thing to note is that this Repository is a _monorepo_. This means that there are three seperate "sub projects" within this single repo. In this case there is the `snippet`, `client` and `api.` It is essential to understand the differences, and I'll do my best to explain them; consider checking the road map to learn more, and feel free to comment if anything is not clear.
+
+**Snippet** :
 
 ```sh
 cd snippet
@@ -34,11 +36,13 @@ To run the snippet and see it working, you'll need to open the `example.html` pa
 
 **Client**
 
+`Client` is a bit of a tricky name (I probably could have named this better, but let's stick with it for now). The client is a small web app. The goal of the client is to _provide a place for a user to go to a page and **customize** the emojis they want to show up when they **use the snippet**. example: you run a blog and at the bottom of it you want an emojion bar with `👔🐦🐯🎩` at the bottom. The client provides a web interface that will **generate an instance of the snippet** or a user to implement.
+
 1. [Install Elm](https://guide.elm-lang.org/install.html) (follow this entire guide if you can!)
-2. Go into your terminal and navigate to the folder `./client` in this repo. 
+2. Go into your terminal and navigate to the folder `./client` in this repo.
 3. Run: `elm reactor`.
-4. Go to `localhost:8000`. Elm should download whatever packages you need to run the project. 
-5. Using elm reactor you can navigate our app. I recommend clicking on the main entry point, which should be `main.elm`. 
+4. Go to `localhost:8000`. Elm should download whatever packages you need to run the project.
+5. Using elm reactor you can navigate our app. I recommend clicking on the main entry point, which should be `main.elm`.
 
 **Api**
 
@@ -47,7 +51,7 @@ To run the snippet and see it working, you'll need to open the `example.html` pa
 
 # Terminology
 
-If you are a bit lost, the following terminology might help to clarify some aspects of the project. 
+If you are a bit lost, the following terminology might help to clarify some aspects of the project.
 
 **Emoji-bar**: A container with emojis (:wave:) in it, and the corresponding number of time they have been clicked (think, facebook, slack, github isues etc).
 
