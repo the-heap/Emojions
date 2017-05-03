@@ -12,7 +12,7 @@ dependencies:
         pwd: client
   cache_directories:
     - ~/.cache/yarn
-    - elm-stuff/
+    - client/elm-stuff/build-artifacts
 
 test:
   override:
