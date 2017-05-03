@@ -6,15 +6,15 @@ dependencies:
   override:
     - yarn:
         pwd: snippet
-    - yarn add elm:
-        pwd: client
-    - ./node_modules/.bin/elm-package install --yes:
-        pwd: client
-    - ./node_modules/.bin/elm-make main.elm --yes:
-        pwd: client
+    # - yarn add elm:
+    #     pwd: client
+    # - ./node_modules/.bin/elm-package install --yes:
+    #     pwd: client
+    # - ./node_modules/.bin/elm-make main.elm --yes:
+    #     pwd: client
   cache_directories:
     - ~/.cache/yarn
-    - ./client/elm-stuff/build-artifacts
+    # - ./client/elm-stuff/build-artifacts
 
 test:
   override:
