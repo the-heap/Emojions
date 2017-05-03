@@ -6,6 +6,7 @@ dependencies:
   override:
     - yarn:
         pwd: snippet
+    - npm install -g elm
   cache_directories:
     - ~/.cache/yarn
 
@@ -13,3 +14,5 @@ test:
   override:
     - yarn run test:
         pwd: snippet
+    - elm-make main.elm:
+        pwd: client
