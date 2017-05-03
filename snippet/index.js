@@ -57,21 +57,29 @@
   // =====================================================
   // Create the functions that will feed into the pipe.
   // =====================================================
+
   /**
-   * Create the style element to style our emoji bar
+   * Create the style element to style our emoji bar,
+   * add an id to it and append it to the head of the page
    *
-   *
-   *
-   *
+   * @param {object} state
+   * @returns {object} state
    */
   function addStylesheet(state) {
-
     let styleElement = document.createElement('style')
     let stylesheet = styleElement.sheet;
 
+    let styleId = document.createAttribute("id")
+    styleId.value = "emojion_bar";
+
+    styleElement.setAttributeNode(styleId);
+
     document.head.appendChild(styleElement);
+
     return state;
   }
+
+
   /**
    * Get all the ids from the page,
    * filter out the ones we want to mount emojion bar on
@@ -137,8 +145,7 @@
       // create an html TEMPLATE, and display it.
       container.innerHTML = state.emojis[id]
         .map((emoji, index) => {
-          return
-            `
+          return `
           <div class="emojion_single">
             ${emoji.icon} ${emoji.count}
           </div>
