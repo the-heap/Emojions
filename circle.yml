@@ -10,13 +10,13 @@ dependencies:
         pwd: client
     - ./node_modules/.bin/elm-package install --yes:
         pwd: client
+    - ./node_modules/.bin/elm-make main.elm --yes:
+        pwd: client
   cache_directories:
     - ~/.cache/yarn
-    - client/elm-stuff/build-artifacts
+    - ./client/elm-stuff/build-artifacts
 
 test:
   override:
     - yarn run test:
         pwd: snippet
-    - ./node_modules/.bin/elm-make main.elm --yes:
-        pwd: client
