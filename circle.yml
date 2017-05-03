@@ -1,11 +1,11 @@
 dependencies:
   override:
-    - yarn
-      pwd: snippets
+    - yarn:
+        pwd: snippets
   cache_directories:
     - ~/.cache/yarn
 
 test:
   override:
-    - yarn run test
-      pwd: snippets
+    - yarn run test:
+        pwd: snippets
