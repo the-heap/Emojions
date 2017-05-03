@@ -2,7 +2,7 @@
 [![Join the chat at https://gitter.im/the-heap/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/the-heap/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 [![first-timers-only Friendly](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
-[![CircleCI](https://circleci.com/gh/mackiedrew/Emojions/tree/development.svg?style=badge)](https://circleci.com/gh/mackiedrew/Emojions/tree/development)
+[![CircleCI](https://circleci.com/gh/the-heap/Emojions/tree/development.svg?style=badge)](https://circleci.com/gh/mackiedrew/Emojions/tree/development)
 
 
 Welcome to one of THE HEAP's open projects! For the month of May We're building an embeddeable emoji bar. This project aims to be as accessible as possible to people who want to contribute to open source code! We've got a few things to go over, so if you're new to Github, or contributing to open source software, take a breather and then read on! You got this. 👌
