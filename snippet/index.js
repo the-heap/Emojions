@@ -6,23 +6,34 @@
   // Constants
   EMOJION_ID = "emojion";
 
-  const EMOJION_STAMP = () => [
-    { icon: "😅", count: 0 },
-    { icon: "🗻", count: 0 },
-    { icon: "⚓", count: 0 },
-    { icon: "🌵", count: 0 }
-  ];
+  const EMOJION_STAMP = () => [{
+    icon: "😅",
+    count: 0
+  }, {
+    icon: "🗻",
+    count: 0
+  }, {
+    icon: "⚓",
+    count: 0
+  }, {
+    icon: "🌵",
+    count: 0
+  }];
 
   // State to pass through function pipeline
   var state = {
-    dom: { mounts: [], containers: [] },
+    dom: {
+      mounts: [],
+      containers: []
+    },
     emojis: {}
   };
 
   /**
-   * The All Magical, Beautiful Function Pipe! Creates a function which will run a series of
-   * functions into one another in the provided order. Since it returns a function, this can be
-   * reused as a function provided with newly provided arguments.
+   * The All Magical, Beautiful Function Pipe! 
+   * Creates a function which will run a series of functions into one another in the provided order. 
+   * Since it returns a function, this can be reused as a function provided with newly provided arguments.
+   *
    * @param {...Function} functions An unknown number of functions, add as many as you require.
    * @returns {Function} A single function that can be called to run all provided functions on given
    * data in the originally provided order.
@@ -37,6 +48,7 @@
   // =====================================================
 
   const render = pipe(
+    addStylesheet,
     getAllIds,
     makeEmojionBars,
     makeContainers,
@@ -49,10 +61,32 @@
   // =====================================================
 
   /**
-   * Get all the ids from the page, 
+   * Create the style element to style our emoji bar,
+   * add an id to it and append it to the head of the page
+   *
+   * @param {object} state
+   * @returns {object} state
+   */
+  function addStylesheet(state) {
+    let styleElement = document.createElement('style')
+    let stylesheet = styleElement.sheet;
+
+    let styleId = document.createAttribute("id")
+    styleId.value = "emojion_bar";
+
+    styleElement.setAttributeNode(styleId);
+
+    document.head.appendChild(styleElement);
+
+    return state;
+  }
+
+
+  /**
+   * Get all the ids from the page,
    * filter out the ones we want to mount emojion bar on
-   *  
-   * @param {object} state 
+   *
+   * @param {object} state
    * @returns {object} state
    */
   function getAllIds(state) {
@@ -64,8 +98,8 @@
 
   /**
    * Loop through the dom elements that need an emojion bar
-   * Generate a new emojio stamp for that dom element. 
-   * @param {obj} state 
+   * Generate a new emojio stamp for that dom element.
+   * @param {obj} state
    * @returns {obj} state - now with emoji structures
    */
   function makeEmojionBars(state) {
@@ -79,7 +113,7 @@
    * Create our own dom element to actually mount our emojion bar in
    * This is different than the mounts that user specifices for where they want the bar.
    * TODO: Rename this.
-   * @param {obj} state 
+   * @param {obj} state
    * @returns {obj} state - our custom dom containers for our emoji bars
    */
   function makeContainers(state) {
@@ -102,10 +136,10 @@
   }
 
   /**
-   * Go through all of OUR containers, and fill out the emojion bar 
-   * Pair Dom elements up with data structure so they receive the correct emojion bar 
-   * @param {any} state 
-   * @returns 
+   * Go through all of OUR containers, and fill out the emojion bar
+   * Pair Dom elements up with data structure so they receive the correct emojion bar
+   * @param {any} state
+   * @returns
    */
   function populateContainers(state) {
     state.dom.containers.forEach(container => {
