@@ -19,16 +19,18 @@
     emojis: {}
   };
 
-  // The All Magical, Beautiful Function Pipe!
-
   /**
-   * create a function pipe.
-   * TODO: refactor to be more readable. PLEASE.
-   * @param {functions} funs -> unknown number of functions
-   * @returns - a state object. 
+   * The All Magical, Beautiful Function Pipe!
+   * Creates a function which will run a series of functions into one another in the provided order.
+   * Since it returns a function, this can be reused as a function provided with new arguments.
+   * @param {...Function} functions An unknown number of functions, add as many as you want a
+   * arguments as required.
+   * @returns {Function} A single function that can be run to run all provided functions on given
+   * data in the originally provided order.
    */
-  function pipe(...funs) {
-    return funs.reduce((f, g) => (...args) => g(f(...args)));
+  function pipe(...functions) {
+    return functions.reduce((functionPipeSoFar, nextFunction) => (...args) =>
+      nextFunction(functionPipeSoFar(...args)));
   }
 
   // =====================================================
