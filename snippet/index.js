@@ -50,7 +50,8 @@
     getAllIds,
     makeEmojionBars,
     makeContainers,
-    populateContainers
+    populateContainers,
+    incrementEmojiCount
   )(state);
   console.log(state);
 
@@ -66,10 +67,10 @@
    * @returns {object} state
    */
   function addStylesheet(state) {
-    let styleElement = document.createElement('style')
+    let styleElement = document.createElement("style");
     let stylesheet = styleElement.sheet;
 
-    let styleId = document.createAttribute("id")
+    let styleId = document.createAttribute("id");
     styleId.value = "emojion_bar";
 
     styleElement.setAttributeNode(styleId);
@@ -78,7 +79,6 @@
 
     return state;
   }
-
 
   /**
    * Get all the ids from the page,
@@ -153,6 +153,40 @@
         })
         .join(""); // remove commas between elements
     });
+    return state;
+  }
+
+
+  /**
+   * Loop over containers of emojis in the DOM
+   * Add event listeners to each one
+   * Run a function on click that should increment the count of a single emoji
+   *
+   * @param {any} state
+   * @returns
+   */
+  function incrementEmojiCount(state) {
+    state.dom.containers.forEach(container => {
+      const containerId = container.attributes.data_map_id.value;
+      let emojions = [].slice.call(document.querySelectorAll(
+        ".emojion_single"));
+      console.log(containerId);
+
+      console.log(state.emojis[containerId]);
+      console.log(container);
+      container.childNodes.forEach(emoji => {
+          emoji.addEventListener('click', () => {
+            console.log(emoji);
+          })
+        })
+        // for (let i = 0; i < emojions.length; i++) {
+        //   emojions[i].addEventListener("click", () => {
+        //     count += 1;
+        //     emojions[i].innerHTML = count.toString();
+        //   });
+        // }
+    });
+    populateContainers(state);
     return state;
   }
 
