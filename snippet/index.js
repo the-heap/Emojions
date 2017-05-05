@@ -103,9 +103,45 @@
 
     // Style emojion bars
     style.innerHTML = `
-    .emojion_container {
-       border: 1px solid red;
-    }`;
+      .emojion_container {
+        align-items: center;
+        background: #eee;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        margin: 10px 0 15px;
+      }
+
+      .emojion_single {
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        box-sizing: content-box;
+        flex: 1 0 auto;
+        margin: 0;
+        min-width: 30px;
+        padding: 5px 10px 8px;
+        text-align: center;
+        transition: background 0.25s ease;
+      }
+
+      .emojion_single:first-of-type {
+        border-left: 1px solid #ddd;
+      }
+
+      .emojion_single:last-of-type {
+        border-right: 1px solid #ddd;
+      }
+
+      .emojion_container:hover .emojion_single {
+        background: #efefef;
+      }
+
+      .emojion_container .emojion_single:hover {
+        background: #fff;
+      }
+    `;
 
     return state;
   }
