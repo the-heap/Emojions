@@ -58,6 +58,7 @@
 
   const render = pipe(
     addStylesheet,
+    populateStylesheet,
     getAllIds,
     makeEmojionBars,
     makeContainers,
@@ -86,6 +87,25 @@
     styleElement.setAttributeNode(styleId);
 
     document.head.appendChild(styleElement);
+
+    return state;
+  }
+
+  /**
+   * Insert styles into the DOM via our <style> tag
+   *
+   * @param {object} state
+   * @returns {object} state
+   */
+
+  function populateStylesheet(state) {
+    var style = document.getElementById(STYLE_ID);
+
+    // Style emojion bars
+    style.innerHTML = `
+    .emojion_container {
+       border: 1px solid red;
+    }`;
 
     return state;
   }
