@@ -4,21 +4,30 @@
   // =====================================================
 
   // Constants
-  EMOJION_ID = "emojion";
+  const EMOJION_ID = "emojion";
 
-  const EMOJION_STAMP = () => [{
-    icon: "😅",
-    count: 0
-  }, {
-    icon: "🗻",
-    count: 0
-  }, {
-    icon: "⚓",
-    count: 0
-  }, {
-    icon: "🌵",
-    count: 0
-  }];
+  const EMOJION_NAMESPACE = "emjn_"; // Different to ID
+
+  const STYLE_ID = EMOJION_NAMESPACE + "style";
+
+  const EMOJION_STAMP = () => [
+    {
+      icon: "😅",
+      count: 0
+    },
+    {
+      icon: "🗻",
+      count: 0
+    },
+    {
+      icon: "⚓",
+      count: 0
+    },
+    {
+      icon: "🌵",
+      count: 0
+    }
+  ];
 
   // State to pass through function pipeline
   var state = {
@@ -68,11 +77,11 @@
    * @returns {object} state
    */
   function addStylesheet(state) {
-    let styleElement = document.createElement('style')
+    let styleElement = document.createElement("style");
     let stylesheet = styleElement.sheet;
 
-    let styleId = document.createAttribute("id")
-    styleId.value = "emojion_bar";
+    let styleId = document.createAttribute("id");
+    styleId.value = STYLE_ID;
 
     styleElement.setAttributeNode(styleId);
 
@@ -80,7 +89,6 @@
 
     return state;
   }
-
 
   /**
    * Get all the ids from the page,
