@@ -103,45 +103,42 @@
 
     // Style emojion bars
     style.innerHTML = `
-      .emojion_container {
-        align-items: center;
-        background: #eee;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-        display: flex;
-        flex-flow: row wrap;
-        justify-content: center;
-        margin: 10px 0 15px;
-      }
+  .emojion__container {
+    background: #eee;
+    display: inline;
+    justify-content: center;
+    margin: 0 0 15px;
+    width: auto;
+  }
 
-      .emojion_single {
-        background: #fff;
-        border-bottom: 1px solid #ddd;
-        border-top: 1px solid #ddd;
-        box-sizing: content-box;
-        flex: 1 0 auto;
-        margin: 0;
-        min-width: 30px;
-        padding: 5px 10px 8px;
-        text-align: center;
-        transition: background 0.25s ease;
-      }
+  .emojion__single {
+    background: #fff;
+    box-sizing: content-box;
+    flex: 0 1 auto;
+    margin: 0;
+    width: auto;
+    min-width: 7px;
+    padding: 5px 10px 8px;
+    text-align: center;
+    transition: background 0.25s ease;
+    display: inline-block;
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+  }
 
-      .emojion_single:first-of-type {
-        border-left: 1px solid #ddd;
-      }
+  .emojion__single:hover {
+    cursor: pointer;
+  }
 
-      .emojion_single:last-of-type {
-        border-right: 1px solid #ddd;
-      }
+  .emojion__container:hover .emojion__single {
+    background: #efefef;
+  }
 
-      .emojion_container:hover .emojion_single {
-        background: #efefef;
-      }
-
-      .emojion_container .emojion_single:hover {
-        background: #fff;
-      }
-    `;
+  .emojion__container .emojion__single:hover {
+    background: #fff;
+  }
+`;
 
     return state;
   }
@@ -187,8 +184,8 @@
       let containerClass = document.createAttribute("class");
       const containerMapId = document.createAttribute("data_map_id");
 
-      // set a value on our html attribute (ie. class = " emojion_container") -> add to dom element
-      containerClass.value = "emojion_container";
+      // set a value on our html attribute (ie. class = " emojion__container") -> add to dom element
+      containerClass.value = "emojion__container";
       containerMapId.value = mount.id;
       emojiContainer.setAttributeNode(containerClass);
       emojiContainer.setAttributeNode(containerMapId);
@@ -211,11 +208,9 @@
       // create an html TEMPLATE, and display it.
       container.innerHTML = state.emojis[id]
         .map((emoji, index) => {
-          return `
-          <div class="emojion_single">
+          return `<button class="emojion__single">
             ${emoji.icon} ${emoji.count}
-          </div>
-        `;
+          </button>`;
         })
         .join(""); // remove commas between elements
     });
