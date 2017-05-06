@@ -104,8 +104,7 @@
     // Style emojion bars
     style.innerHTML = `
   .emojion__container {
-    background: #eee;
-    display: inline-block;
+    display: block;
     justify-content: center;
     margin: 10px 0;
     width: auto;
@@ -113,7 +112,10 @@
 
   .emojion__single {
     background: #fff;
-    border: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
     box-sizing: content-box;
     display: inline-block;
     flex: 0 1 auto;
@@ -124,6 +126,14 @@
     padding: 5px 10px 8px;
     transition: background 0.25s ease;
     width: auto;
+  }
+
+  .emojion__single:first-of-type {
+    border-left: 1px solid #eee;
+  }
+
+  .emojion__single:last-of-type {
+    border-right: 1px solid #eee;
   }
 
   .emojion__single:hover {
