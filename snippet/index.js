@@ -26,6 +26,10 @@
     {
       icon: "🌵",
       count: 0
+    },
+    {
+      icon: "🚀",
+      count: 0
     }
   ];
 
@@ -104,21 +108,27 @@
     // Style emojion bars
     style.innerHTML = `
   .emojion__container {
-    display: block;
+    display: flex;
     justify-content: center;
     margin: 10px 0;
     width: auto;
   }
 
+  @media screen and (max-width: 320px) {
+    .emojion__container {
+      flex-flow: column;
+    }
+  }
+
   .emojion__single {
     background: #fff;
+    border-bottom: 1px solid #eee;
     border-left: 0;
     border-right: 0;
-    border-bottom: 1px solid #eee;
     border-top: 1px solid #eee;
     box-sizing: content-box;
     display: inline-block;
-    flex: 0 1 auto;
+    flex: 1 0 auto;
     font-size: 16px;
     margin: 0;
     min-width: 7px;
