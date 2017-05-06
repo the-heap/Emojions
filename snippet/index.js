@@ -39,8 +39,8 @@
   };
 
   /**
-   * The All Magical, Beautiful Function Pipe! 
-   * Creates a function which will run a series of functions into one another in the provided order. 
+   * The All Magical, Beautiful Function Pipe!
+   * Creates a function which will run a series of functions into one another in the provided order.
    * Since it returns a function, this can be reused as a function provided with newly provided arguments.
    *
    * @param {...Function} functions An unknown number of functions, add as many as you require.
@@ -105,26 +105,25 @@
     style.innerHTML = `
   .emojion__container {
     background: #eee;
-    display: inline;
+    display: inline-block;
     justify-content: center;
-    margin: 0 0 15px;
+    margin: 10px 0;
     width: auto;
   }
 
   .emojion__single {
     background: #fff;
-    box-sizing: content-box;
-    flex: 0 1 auto;
-    margin: 0;
-    width: auto;
-    min-width: 7px;
-    padding: 5px 10px 8px;
-    text-align: center;
-    transition: background 0.25s ease;
-    display: inline-block;
     border: 0;
-    outline: 0;
+    box-sizing: content-box;
+    display: inline-block;
+    flex: 0 1 auto;
     font-size: 16px;
+    margin: 0;
+    min-width: 7px;
+    outline: 0;
+    padding: 5px 10px 8px;
+    transition: background 0.25s ease;
+    width: auto;
   }
 
   .emojion__single:hover {

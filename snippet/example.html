@@ -37,13 +37,13 @@
     }
 
     .button {
-      display: block;
       background: #3498db;
-      color: #fff;
-      outline: 0;
       border: 0;
-      padding: 10px 25px;
+      color: #fff;
+      display: block;
       font-size: 18px;
+      outline: 0;
+      padding: 10px 25px;
       transition: background .125s ease;
     }
 
@@ -59,8 +59,8 @@
 
     .comment {
       border-left: 3px solid #efefef;
-      margin-top: 30px;
       margin-bottom: 45px;
+      margin-top: 30px;
       padding: 15px;
     }
 
@@ -77,16 +77,18 @@
       color: #666;
     }
 
-    .comment__content {
-      width: 80%;
-      display: inline-block;
-      padding-right: 30px;
-    }
+    @media screen and (min-width: 500px) {
+      .comment__content {
+        display: inline-block;
+        padding-right: 30px;
+        width: 80%;
+      }
 
-    .comment__reply {
-      width: 20%;
-      display: inline-block;
-      vertical-align: bottom;
+      .comment__reply {
+        display: inline-block;
+        vertical-align: bottom;
+        width: 20%;
+      }
     }
   </style>
 </head>
@@ -100,6 +102,11 @@
 
     <article>
       <h2>Article Title</h2>
+
+      <ul>
+        <li>What about a click effect?</li>
+      </ul>
+
       <p>Epsum factorial non deposit quid pro quo hic escorol. Olypian quarrels et gorilla congolium sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum. Defacto lingo est igpay atinlay. Marquee selectus non provisio incongruous feline nolo contendre. Gratuitous octopus niacin, sodium glutimate. Quote meon an estimate et non interruptus stadium.</p>
       <p>Sic tempus fugit esperanto hiccup estrogen. Glorious baklava ex librus hup hey ad infinitum. Non sequitur condominium facile et geranium incognito. Epsum factorial non deposit quid pro quo hic escorol. Marquee selectus non provisio incongruous feline nolo contendre Olypian quarrels et gorilla congolium sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum.</p>
     </article>
