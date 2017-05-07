@@ -10,5 +10,5 @@ insert_final_newline = true
 [*.md]
 trim_trailing_whitespace = false
 
-[*.html]
+[*.elm]
 indent_size = 4
