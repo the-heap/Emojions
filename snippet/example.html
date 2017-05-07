@@ -1,183 +1,181 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Example Emojion site | THE HEAP</title>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Emojion site | THE HEAP</title>
+        <style type="text/css">
+            *{
+                box-sizing: border-box;
+            }
 
-  <style type="text/css">
-    *{
-      box-sizing: border-box;
-    }
+            body {
+                color: #333;
+                font-family: sans-serif;
+                font-size: 16px;
+            }
 
-    body {
-      color: #333;
-      font-family: sans-serif;
-      font-size: 16px;
-    }
+            p {
+                max-width: 750px;
+            }
 
-    p {
-      max-width: 750px;
-    }
+            article {
+                margin: 30px 0 45px;
+            }
 
-    article {
-      margin: 30px 0 45px;
-    }
+            button,
+            a {
+                cursor: pointer;
+            }
 
-    button,
-    a {
-      cursor: pointer;
-    }
+            .wrapper {
+                margin: 0 auto;
+                max-width: 1024px;
+                padding: 0 2.5%;
+            }
 
-    .wrapper {
-      margin: 0 auto;
-      max-width: 1024px;
-      padding: 0 2.5%;
-    }
+            .button {
+                background: #3498db;
+                border: 0;
+                color: #fff;
+                display: block;
+                font-size: 18px;
+                outline: 0;
+                padding: 10px 25px;
+                transition: background .125s ease;
+            }
 
-    .button {
-      background: #3498db;
-      border: 0;
-      color: #fff;
-      display: block;
-      font-size: 18px;
-      outline: 0;
-      padding: 10px 25px;
-      transition: background .125s ease;
-    }
+            .button:hover {
+                background: #333;
+            }
 
-    .button:hover {
-      background: #333;
-    }
+            .comments {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
 
-    .comments {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-    }
+            .comment {
+                border-left: 3px solid #efefef;
+                margin-bottom: 45px;
+                margin-top: 30px;
+                padding: 15px;
+            }
 
-    .comment {
-      border-left: 3px solid #efefef;
-      margin-bottom: 45px;
-      margin-top: 30px;
-      padding: 15px;
-    }
+            .comment__meta {
+                margin-bottom: 10px;
+            }
 
-    .comment__meta {
-      margin-bottom: 10px;
-    }
+            .comment__username {
+                font-weight: bold;
+                margin-right: 15px;
+            }
 
-    .comment__username {
-      font-weight: bold;
-      margin-right: 15px;
-    }
+            .comment__date-authored {
+                color: #666;
+            }
 
-    .comment__date-authored {
-      color: #666;
-    }
+            @media screen and (min-width: 500px) {
+                .comment__content {
+                    display: inline-block;
+                    padding-right: 30px;
+                    width: 80%;
+                }
 
-    @media screen and (min-width: 500px) {
-      .comment__content {
-        display: inline-block;
-        padding-right: 30px;
-        width: 80%;
-      }
+                .comment__reply {
+                    display: inline-block;
+                    vertical-align: bottom;
+                    width: 20%;
+                }
+            }
+        </style>
+    </head>
 
-      .comment__reply {
-        display: inline-block;
-        vertical-align: bottom;
-        width: 20%;
-      }
-    }
-  </style>
-</head>
+    <body>
+      <div class="wrapper">
 
-<body>
-  <div class="wrapper">
+        <header>
+            <h1>Emojions Example Supa-site!</h1>
+        </header>
 
-    <header>
-      <h1>Emojions Example Supa-site!</h1>
-    </header>
+        <article>
+            <h2>Article Title</h2>
 
-    <article>
-      <h2>Article Title</h2>
+            <ul>
+                <li>What about a click effect?</li>
+            </ul>
 
-      <ul>
-        <li>What about a click effect?</li>
-      </ul>
+            <p>Epsum factorial non deposit quid pro quo hic escorol. Olypian quarrels et gorilla congolium sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum. Defacto lingo est igpay atinlay. Marquee selectus non provisio incongruous feline nolo contendre. Gratuitous octopus niacin, sodium glutimate. Quote meon an estimate et non interruptus stadium.</p>
+            <p>Sic tempus fugit esperanto hiccup estrogen. Glorious baklava ex librus hup hey ad infinitum. Non sequitur condominium facile et geranium incognito. Epsum factorial non deposit quid pro quo hic escorol. Marquee selectus non provisio incongruous feline nolo contendre Olypian quarrels et gorilla congolium sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum.</p>
+        </article>
 
-      <p>Epsum factorial non deposit quid pro quo hic escorol. Olypian quarrels et gorilla congolium sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum. Defacto lingo est igpay atinlay. Marquee selectus non provisio incongruous feline nolo contendre. Gratuitous octopus niacin, sodium glutimate. Quote meon an estimate et non interruptus stadium.</p>
-      <p>Sic tempus fugit esperanto hiccup estrogen. Glorious baklava ex librus hup hey ad infinitum. Non sequitur condominium facile et geranium incognito. Epsum factorial non deposit quid pro quo hic escorol. Marquee selectus non provisio incongruous feline nolo contendre Olypian quarrels et gorilla congolium sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum.</p>
-    </article>
+        <ul class="comments">
+            <h3>Comments</h3>
 
-    <ul class="comments">
-      <h3>Comments</h3>
+            <li id ="emojion_asdf">
+                <div>
+                    <span>Bart Simpson</span>
+                    <span>2nd May 2017</span>
+                </div>
 
-      <li id ="emojion_asdf">
-        <div>
-          <span>Bart Simpson</span>
-          <span>2nd May 2017</span>
-        </div>
+                <div>
+                    <p>This is a comment without <strong>any styles</strong> to show the Emojion bar 'as is'. </p>
+                </div>
 
-        <div>
-          <p>This is a comment without <strong>any styles</strong> to show the Emojion bar 'as is'. </p>
-        </div>
+                <button>Reply</button>
+            </li>
 
-        <button>Reply</button>
-      </li>
+            <li id="emojions_235kjhab" class="comment">
+                <div class="comment__meta">
+                    <span class="comment__username">Homer Simpson</span>
+                    <span class="comment__date-authored">3rd May 2017</span>
+                </div>
 
-      <li id="emojions_235kjhab" class="comment">
-        <div class="comment__meta">
-          <span class="comment__username">Homer Simpson</span>
-          <span class="comment__date-authored">3rd May 2017</span>
-        </div>
+                <div class="comment__content">
+                    <p>This comment has the Emojion snippet appended.</p>
+                </div><!--
 
-        <div class="comment__content">
-          <p>This comment has the Emojion snippet appended.</p>
-        </div><!--
+                --><button class="button comment__reply">
+                    Reply
+                </button>
+            </li>
 
-        --><button class="button comment__reply">
-          Reply
-        </button>
-      </li>
+            <li id="emojions_aslkdjfa" class="comment">
+                <div class="comment__meta">
+                    <span class="comment__username">Marge Simpson</span>
+                    <span class="comment__date-authored">5th May 2017</span>
+                </div>
 
-      <li id="emojions_aslkdjfa" class="comment">
-        <div class="comment__meta">
-          <span class="comment__username">Marge Simpson</span>
-          <span class="comment__date-authored">5th May 2017</span>
-        </div>
+                <div class="comment__content">
+                    <p>This comment also has the Emojion snippet appended. <strong>But, with a bit more content.</strong></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil adipisci ratione in nulla deserunt maxime, dicta libero quod, distinctio, explicabo numquam quidem eum reprehenderit vel enim, facilis est non dolorem!</p>
 
-        <div class="comment__content">
-          <p>This comment also has the Emojion snippet appended. <strong>But, with a bit more content.</strong></p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil adipisci ratione in nulla deserunt maxime, dicta libero quod, distinctio, explicabo numquam quidem eum reprehenderit vel enim, facilis est non dolorem!</p>
+                </div><!--
 
-        </div><!--
+                --><button class="button comment__reply">
+                    Reply
+                </button>
+            </li>
 
-        --><button class="button comment__reply">
-          Reply
-        </button>
-      </li>
+            <li class="comment comment--no-emojion-bar">
+                <div class="comment__meta">
+                    <span class="comment__username">Bart Simpson</span>
+                    <span class="comment__date-authored">2nd May 2017</span>
+                </div>
 
-      <li class="comment comment--no-emojion-bar">
-        <div class="comment__meta">
-          <span class="comment__username">Bart Simpson</span>
-          <span class="comment__date-authored">2nd May 2017</span>
-        </div>
+                <div class="comment__content">
+                    <p>This is a comment without the Emojion snippet.</p>
+                </div><!--
 
-        <div class="comment__content">
-          <p>This is a comment without the Emojion snippet.</p>
-        </div><!--
+                --><button class="button comment__reply">
+                Reply
+                </button>
+            </li>
+        </ul>
 
-        --><button class="button comment__reply">
-          Reply
-        </button>
-      </li>
+    </div> <!-- /wrapper -->
 
-    </ul>
-
-  </div>
-
-  <script type="text/javascript" src="./index.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
 </body>
 </html>
