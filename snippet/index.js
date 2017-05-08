@@ -165,30 +165,24 @@
    * @param {any} state
    * @returns
    */
-  function incrementEmojiCount(state) {
-    state.dom.containers.forEach(container => {
-      const containerId = container.attributes.data_map_id.value;
-      let emojions = [].slice.call(document.querySelectorAll(
-        ".emojion_single"));
-      console.log(containerId);
+   function incrementEmojiCount(state) {
+     state.dom.containers.forEach(container => {
 
-      console.log(state.emojis[containerId]);
-      console.log(container);
-      container.childNodes.forEach(emoji => {
-          emoji.addEventListener('click', () => {
-            console.log(emoji);
-          })
-        })
-        // for (let i = 0; i < emojions.length; i++) {
-        //   emojions[i].addEventListener("click", () => {
-        //     count += 1;
-        //     emojions[i].innerHTML = count.toString();
-        //   });
-        // }
-    });
-    populateContainers(state);
-    return state;
-  }
+       let containerId = container.attributes.data_map_id.value;
+       let emojions = [...container.children]
+
+       emojions.forEach(emoji_el => {
+         emoji_el.addEventListener('click', function () {
+           let payload = state.emojis[containerId].find(emoji_str => {
+             return emoji_str.count++
+           })
+           populateContainers(state)
+           incrementEmojiCount(state)
+         })
+       })
+     });
+     return state
+   }
 
   // =====================================================
   // Exports required for automated testing.
