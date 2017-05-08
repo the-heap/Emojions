@@ -68,7 +68,6 @@
     makeContainers,
     populateContainers
   )(state);
-  console.log(state);
 
   // =====================================================
   // Create the functions that will feed into the pipe.
