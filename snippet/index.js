@@ -4,21 +4,34 @@
   // =====================================================
 
   // Constants
-  EMOJION_ID = "emojion";
+  const EMOJION_ID = "emojion";
 
-  const EMOJION_STAMP = () => [{
-    icon: "😅",
-    count: 0
-  }, {
-    icon: "🗻",
-    count: 0
-  }, {
-    icon: "⚓",
-    count: 0
-  }, {
-    icon: "🌵",
-    count: 0
-  }];
+  const EMOJION_NAMESPACE = "emjn_"; // Different to ID
+
+  const STYLE_ID = EMOJION_NAMESPACE + "style";
+
+  const EMOJION_STAMP = () => [
+    {
+      icon: "😅",
+      count: 0
+    },
+    {
+      icon: "🗻",
+      count: 0
+    },
+    {
+      icon: "⚓",
+      count: 0
+    },
+    {
+      icon: "🌵",
+      count: 0
+    },
+    {
+      icon: "🚀",
+      count: 0
+    }
+  ];
 
   // State to pass through function pipeline
   var state = {
@@ -29,16 +42,18 @@
     emojis: {}
   };
 
-  // The All Magical, Beautiful Function Pipe!
-
   /**
-   * create a function pipe.
-   * TODO: refactor to be more readable. PLEASE.
-   * @param {functions} funs -> unknown number of functions
-   * @returns - a state object.
+   * The All Magical, Beautiful Function Pipe!
+   * Creates a function which will run a series of functions into one another in the provided order.
+   * Since it returns a function, this can be reused as a function provided with newly provided arguments.
+   *
+   * @param {...Function} functions An unknown number of functions, add as many as you require.
+   * @returns {Function} A single function that can be called to run all provided functions on given
+   * data in the originally provided order.
    */
-  function pipe(...funs) {
-    return funs.reduce((f, g) => (...args) => g(f(...args)));
+  function pipe(...functions) {
+    return functions.reduce((accumulatedFuncs, currentFunc) => (...args) =>
+      currentFunc(accumulatedFuncs(...args)));
   }
 
   // =====================================================
@@ -47,13 +62,13 @@
 
   const render = pipe(
     addStylesheet,
+    populateStylesheet,
     getAllIds,
     makeEmojionBars,
     makeContainers,
     populateContainers,
     incrementEmojiCount
   )(state);
-  console.log(state);
 
   // =====================================================
   // Create the functions that will feed into the pipe.
@@ -71,11 +86,79 @@
     let stylesheet = styleElement.sheet;
 
     let styleId = document.createAttribute("id");
-    styleId.value = "emojion_bar";
+
+    styleId.value = STYLE_ID;
 
     styleElement.setAttributeNode(styleId);
 
     document.head.appendChild(styleElement);
+
+    return state;
+  }
+
+  /**
+   * Insert styles into the DOM via our <style> tag
+   *
+   * @param {object} state
+   * @returns {object} state
+   */
+
+  function populateStylesheet(state) {
+    var style = document.getElementById(STYLE_ID);
+
+    // Style emojion bars
+    style.innerHTML = `
+  .emojion__container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    width: auto;
+  }
+
+  @media screen and (max-width: 320px) {
+    .emojion__container {
+      flex-flow: column;
+    }
+  }
+
+  .emojion__single {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px solid #eee;
+    box-sizing: content-box;
+    display: inline-block;
+    flex: 1 0 auto;
+    font-size: 16px;
+    margin: 0;
+    min-width: 7px;
+    outline: 0;
+    padding: 5px 10px 8px;
+    transition: background 0.25s ease;
+    width: auto;
+  }
+
+  .emojion__single:first-of-type {
+    border-left: 1px solid #eee;
+  }
+
+  .emojion__single:last-of-type {
+    border-right: 1px solid #eee;
+  }
+
+  .emojion__single:hover {
+    cursor: pointer;
+  }
+
+  .emojion__container:hover .emojion__single {
+    background: #efefef;
+  }
+
+  .emojion__container .emojion__single:hover {
+    background: #fff;
+  }
+`;
 
     return state;
   }
@@ -121,8 +204,8 @@
       let containerClass = document.createAttribute("class");
       const containerMapId = document.createAttribute("data_map_id");
 
-      // set a value on our html attribute (ie. class = " emojion_container") -> add to dom element
-      containerClass.value = "emojion_container";
+      // set a value on our html attribute (ie. class = " emojion__container") -> add to dom element
+      containerClass.value = "emojion__container";
       containerMapId.value = mount.id;
       emojiContainer.setAttributeNode(containerClass);
       emojiContainer.setAttributeNode(containerMapId);
@@ -145,11 +228,9 @@
       // create an html TEMPLATE, and display it.
       container.innerHTML = state.emojis[id]
         .map((emoji, index) => {
-          return `
-          <div class="emojion_single">
+          return `<button class="emojion__single">
             ${emoji.icon} ${emoji.count}
-          </div>
-        `;
+          </button>`;
         })
         .join(""); // remove commas between elements
     });
