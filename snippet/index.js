@@ -66,7 +66,8 @@
     getAllIds,
     makeEmojionBars,
     makeContainers,
-    populateContainers
+    populateContainers,
+    incrementEmojiCount
   )(state);
 
   // =====================================================
@@ -85,6 +86,7 @@
     let stylesheet = styleElement.sheet;
 
     let styleId = document.createAttribute("id");
+
     styleId.value = STYLE_ID;
 
     styleElement.setAttributeNode(styleId);
@@ -234,6 +236,34 @@
     });
     return state;
   }
+
+
+  /**
+   * Loop over containers of emojis in the DOM
+   * Add event listeners to each one
+   * Run a function on click that should increment the count of a single emoji
+   *
+   * @param {any} state
+   * @returns
+   */
+   function incrementEmojiCount(state) {
+     state.dom.containers.forEach(container => {
+
+       let containerId = container.attributes.data_map_id.value;
+       let emojions = [...container.children]
+
+       emojions.forEach(emoji_el => {
+         emoji_el.addEventListener('click', function () {
+           let payload = state.emojis[containerId].find(emoji_str => {
+             return emoji_str.count++
+           })
+           populateContainers(state)
+           incrementEmojiCount(state)
+         })
+       })
+     });
+     return state
+   }
 
   // =====================================================
   // Exports required for automated testing.
