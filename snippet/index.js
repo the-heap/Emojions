@@ -5,9 +5,7 @@
 
   // Constants
   const EMOJION_ID = "emojion";
-
   const EMOJION_NAMESPACE = "emjn_"; // Different to ID
-
   const STYLE_ID = EMOJION_NAMESPACE + "style";
 
   const EMOJION_STAMP = () => [
@@ -77,88 +75,81 @@
   /**
    * Create the style element to style our emoji bar,
    * add an id to it and append it to the head of the page
-   *
    * @param {object} state
    * @returns {object} state
    */
   function addStylesheet(state) {
     let styleElement = document.createElement("style");
     let stylesheet = styleElement.sheet;
-
     let styleId = document.createAttribute("id");
 
     styleId.value = STYLE_ID;
-
     styleElement.setAttributeNode(styleId);
-
     document.head.appendChild(styleElement);
-
     return state;
   }
 
   /**
    * Insert styles into the DOM via our <style> tag
-   *
    * @param {object} state
    * @returns {object} state
    */
-
   function populateStylesheet(state) {
     var style = document.getElementById(STYLE_ID);
 
     // Style emojion bars
     style.innerHTML = `
-  .emojion__container {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-    width: auto;
-  }
+      .emojion__container {
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+        width: auto;
+      }
 
-  @media screen and (max-width: 320px) {
-    .emojion__container {
-      flex-flow: column;
-    }
-  }
+      @media screen and (max-width: 320px) {
+        .emojion__container {
+          flex-flow: column;
+        }
+      }
 
-  .emojion__single {
-    background: #fff;
-    border-bottom: 1px solid #eee;
-    border-left: 0;
-    border-right: 0;
-    border-top: 1px solid #eee;
-    box-sizing: content-box;
-    display: inline-block;
-    flex: 1 0 auto;
-    font-size: 16px;
-    margin: 0;
-    min-width: 7px;
-    outline: 0;
-    padding: 5px 10px 8px;
-    transition: background 0.25s ease;
-    width: auto;
-  }
+      .emojion__single {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        border-left: 0;
+        border-right: 0;
+        border-top: 1px solid #eee;
+        box-sizing: content-box;
+        display: inline-block;
+        flex: 1 0 auto;
+        font-size: 16px;
+        margin: 0;
+        min-width: 7px;
+        outline: 0;
+        padding: 5px 10px 8px;
+        transition: background 0.25s ease;
+        width: auto;
+      }
 
-  .emojion__single:first-of-type {
-    border-left: 1px solid #eee;
-  }
+      .emojion__single:first-of-type {
+        border-left: 1px solid #eee;
+      }
 
-  .emojion__single:last-of-type {
-    border-right: 1px solid #eee;
-  }
+      .emojion__single:last-of-type {
+        border-right: 1px solid #eee;
+      }
 
-  .emojion__single:hover {
-    cursor: pointer;
-  }
+      .emojion__single:hover {
+        cursor: pointer;
+      }
 
-  .emojion__container:hover .emojion__single {
-    background: #efefef;
-  }
+      .emojion__container:hover .emojion__single {
+        background: #efefef;
+      }
 
-  .emojion__container .emojion__single:hover {
-    background: #fff;
-  }
-`;
+      .emojion__container .emojion__single:hover {
+        background: #fff;
+      }
+  `;
 
     return state;
   }
@@ -166,7 +157,6 @@
   /**
    * Get all the ids from the page,
    * filter out the ones we want to mount emojion bar on
-   *
    * @param {object} state
    * @returns {object} state
    */
@@ -180,8 +170,8 @@
   /**
    * Loop through the dom elements that need an emojion bar
    * Generate a new emojio stamp for that dom element.
-   * @param {obj} state
-   * @returns {obj} state - now with emoji structures
+   * @param {object} state
+   * @returns {object} state - now with emoji structures
    */
   function makeEmojionBars(state) {
     state.dom.mounts.forEach(mount => {
@@ -217,18 +207,23 @@
   }
 
   /**
-   * Go through all of OUR containers, and fill out the emojion bar
-   * Pair Dom elements up with data structure so they receive the correct emojion bar
-   * @param {any} state
+   * - Go through all of OUR containers, and fill out the emojion bar
+   * - Pair Dom elements up with data structure so they receive the correct emojion bar
+   * - needs to generate an id for the html for the emoji but _also gets written_ to the data structure:
+   * - ie: `<button id="emojion_bar_01">` should match the struct:
+   * - `state.emojis.emojion_bar_asdf[0]` => `{ icon: "😅", count: 0, id: "emojion_bar_asdf_01" }`
+   * @param {object} state
    * @returns
    */
   function populateContainers(state) {
     state.dom.containers.forEach(container => {
       const id = container.attributes.data_map_id.value;
-      // create an html TEMPLATE, and display it.
+
       container.innerHTML = state.emojis[id]
         .map((emoji, index) => {
-          return `<button class="emojion__single">
+          //  unique id to DOM + Data Strutcure => for adding click el's later.
+          emoji.id = `${id}_${index}`;
+          return `<button id="${emoji.id}" class="emojion__single">
             ${emoji.icon} ${emoji.count}
           </button>`;
         })
@@ -237,33 +232,33 @@
     return state;
   }
 
-
   /**
    * Loop over containers of emojis in the DOM
    * Add event listeners to each one
    * Run a function on click that should increment the count of a single emoji
-   *
-   * @param {any} state
-   * @returns
+   * @param {object} state
+   * @returns {object}
    */
-   function incrementEmojiCount(state) {
-     state.dom.containers.forEach(container => {
+  function incrementEmojiCount(state) {
+    state.dom.containers.forEach(container => {
+      let containerId = container.attributes.data_map_id.value;
+      let emojions = [...container.children];
 
-       let containerId = container.attributes.data_map_id.value;
-       let emojions = [...container.children]
+      emojions.forEach(emoji_el => {
+        emoji_el.addEventListener("click", function() {
+          let payload = state.emojis[containerId].find(emoji_data => {
+            return emoji_el.id === emoji_data.id;
+          });
+          payload.count++;
 
-       emojions.forEach(emoji_el => {
-         emoji_el.addEventListener('click', function () {
-           let payload = state.emojis[containerId].find(emoji_str => {
-             return emoji_str.count++
-           })
-           populateContainers(state)
-           incrementEmojiCount(state)
-         })
-       })
-     });
-     return state
-   }
+          // refresh the dom / data state
+          populateContainers(state);
+          incrementEmojiCount(state);
+        });
+      });
+    });
+    return state;
+  }
 
   // =====================================================
   // Exports required for automated testing.
