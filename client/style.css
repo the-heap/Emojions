@@ -1,0 +1,28 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  background: rgb(236, 240, 241);
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: rgb(41, 128, 185);
+  color: rgb(236, 240, 241);
+  padding: 1rem 0;
+}
+
+.header__text {
+  font-size: 3rem;
+}
