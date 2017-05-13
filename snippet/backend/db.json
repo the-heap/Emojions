@@ -2,27 +2,27 @@
     "emojion": [
         {
             "id": "0",
-            "count_face": "0",
-            "count_peak": "1",
-            "count_anchor": "0",
-            "count_cactus": "1",
-            "count_rocket": "0"
+            "😅": "0",
+            "🗻": "1",
+            "⚓": "0",
+            "🌵": "1",
+            "🚀": "0"
         },
         {
             "id": "1",
-            "count_face": "1",
-            "count_peak": "3",
-            "count_anchor": "3",
-            "count_cactus": "7",
-            "count_rocket": "0"
+            "😅": "1",
+            "🗻": "3",
+            "⚓": "3",
+            "🌵": "7",
+            "🚀": "0"
         },
         {
             "id": "2",
-            "count_face": "54",
-            "count_peak": "2",
-            "count_anchor": "3",
-            "count_cactus": "4",
-            "count_rocket": "6"
+            "😅": "54",
+            "🗻": "2",
+            "⚓": "3",
+            "🌵": "4",
+            "🚀": "6"
         }
     ]
 }
