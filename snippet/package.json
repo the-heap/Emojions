@@ -41,5 +41,8 @@
     "lint-staged": "^3.4.0",
     "prettier": "^1.2.2",
     "sinon": "^2.1.0"
+  },
+  "dependencies": {
+    "json-server": "^0.10.0"
   }
 }
