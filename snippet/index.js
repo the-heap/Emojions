@@ -7,6 +7,7 @@
   const EMOJION_ID = "emojion";
   const EMOJION_NAMESPACE = "emjn_"; // Different to ID
   const STYLE_ID = EMOJION_NAMESPACE + "style";
+  const NO_EMOJION_ID = "no-emojion-bar";
 
   const EMOJION_STAMP = () => [
     {
@@ -161,8 +162,9 @@
    * @returns {object} state
    */
   function getAllIds(state) {
-    const ids = [...document.querySelectorAll("[id]")]; // -> converts nodelist to array
-    const mounts = ids.filter(node => node.id.includes(EMOJION_ID));
+    const ids = [...document.querySelectorAll("[class]")]; // -> converts nodelist to array
+    // Check if EMOJION_ID is present and if NO_EMOJION_ID class is not declared
+    const mounts = ids.filter(node => node.className.includes(EMOJION_ID) && !node.className.includes(NO_EMOJION_ID));
     state.dom.mounts = mounts;
     return state;
   }
@@ -175,7 +177,9 @@
    */
   function makeEmojionBars(state) {
     state.dom.mounts.forEach(mount => {
-      state.emojis[mount.id] = EMOJION_STAMP();
+      //This line of code assumes that 'emojion' has to be first class
+      let mountClassName = mount.className.split(' ')[0];
+      state.emojis[mountClassName] = EMOJION_STAMP();
     });
     return state;
   }
@@ -196,7 +200,7 @@
 
       // set a value on our html attribute (ie. class = " emojion__container") -> add to dom element
       containerClass.value = "emojion__container";
-      containerMapId.value = mount.id;
+      containerMapId.value = mount.className.split(' ')[0];
       emojiContainer.setAttributeNode(containerClass);
       emojiContainer.setAttributeNode(containerMapId);
 
