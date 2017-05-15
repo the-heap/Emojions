@@ -1,4 +1,4 @@
-const getAllIds = require("../index.js").getAllIds;
+const getAllClasses = require("../index.js").getAllClasses;
 
 const _defaultState = { dom: {} };
 const _noValidElements =
@@ -21,19 +21,19 @@ const _multipleValidElement =
 describe("getAllIds()", () => {
   it("Should find zero ids", () => {
     document.body.innerHTML = _noValidElements;
-    expect(getAllIds(_defaultState)).toEqual(_passCondition1);
+    expect(getAllClasses(_defaultState)).toEqual(_passCondition1);
   });
 
   it("Should find a single emojion element", () => {
     document.body.innerHTML = _singleValidElement;
-    const currentState = getAllIds(_defaultState);
+    const currentState = getAllClasses(_defaultState);
     expect(currentState.dom.mounts.length).toBe(1);
     expect(currentState.dom.mounts[0].id).toBe("emojion-skull");
   });
 
   it("Should find two ids", () => {
     document.body.innerHTML = _multipleValidElement;
-    const currentState = getAllIds(_defaultState);
+    const currentState = getAllClasses(_defaultState);
     expect(currentState.dom.mounts.length).toBe(3);
     expect(currentState.dom.mounts[0].id).toBe("emojion-banana");
     expect(currentState.dom.mounts[1].id).toBe("emojion-skull");
