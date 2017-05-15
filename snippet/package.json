@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "precommit": "lint-staged",
-    "test": "jest"
+    "test": "jest",
+    "dev" : "node_modules/.bin/json-server --watch backend/db.json"
   },
   "lint-staged": {
     "gitDir": "../",

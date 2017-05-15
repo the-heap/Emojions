@@ -114,21 +114,36 @@
       }
 
       .emojion__single {
+        display: flex;
+        align-items: center;
         background: #fff;
         border-bottom: 1px solid #eee;
         border-left: 0;
         border-right: 0;
         border-top: 1px solid #eee;
         box-sizing: content-box;
-        display: inline-block;
-        flex: 1 0 auto;
+        flex: 1;
         font-size: 16px;
         margin: 0;
         min-width: 7px;
         outline: 0;
         padding: 5px 10px 8px;
         transition: background 0.25s ease;
-        width: auto;
+      }
+
+      .emojion__icon,
+      .emojion__count {
+        flex: 1;
+      }
+
+      .emojion__icon {
+        text-align: right;
+        margin-right: 4px;
+      }
+
+      .emojion__count {
+        text-align: left;
+        margin-left: 4px;
       }
 
       .emojion__single:first-of-type {
@@ -227,7 +242,7 @@
           //  unique id to DOM + Data Strutcure => for adding click el's later.
           emoji.id = `${id}_${index}`;
           return `<button id="${emoji.id}" class="emojion__single">
-            ${emoji.icon} ${emoji.count}
+            <span class="emojion__icon">${emoji.icon}</span><span class="emojion__count">${emoji.count}</span>
           </button>`;
         })
         .join(""); // remove commas between elements
