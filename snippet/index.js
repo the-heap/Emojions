@@ -114,21 +114,36 @@
       }
 
       .emojion__single {
+        display: flex;
+        align-items: center;
         background: #fff;
         border-bottom: 1px solid #eee;
         border-left: 0;
         border-right: 0;
         border-top: 1px solid #eee;
         box-sizing: content-box;
-        display: inline-block;
-        flex: 1 0 auto;
+        flex: 1;
         font-size: 16px;
         margin: 0;
         min-width: 7px;
         outline: 0;
         padding: 5px 10px 8px;
         transition: background 0.25s ease;
-        width: auto;
+      }
+
+      .emojion__icon,
+      .emojion__count {
+        flex: 1;
+      }
+
+      .emojion__icon {
+        text-align: right;
+        margin-right: 4px;
+      }
+
+      .emojion__count {
+        text-align: left;
+        margin-left: 4px;
       }
 
       .emojion__single:first-of-type {
@@ -164,7 +179,11 @@
   function getAllIds(state) {
     const ids = [...document.querySelectorAll("[class]")]; // -> converts nodelist to array
     // Check if EMOJION_ID is present and if NO_EMOJION_ID class is not declared
-    const mounts = ids.filter(node => node.className.includes(EMOJION_ID) && !node.className.includes(NO_EMOJION_ID));
+    const mounts = ids.filter(
+      node =>
+        node.className.includes(EMOJION_ID) &&
+        !node.className.includes(NO_EMOJION_ID)
+    );
     state.dom.mounts = mounts;
     return state;
   }
@@ -178,7 +197,7 @@
   function makeEmojionBars(state) {
     state.dom.mounts.forEach(mount => {
       //This line of code assumes that 'emojion' has to be first class
-      let mountClassName = mount.className.split(' ')[0];
+      let mountClassName = mount.className.split(" ")[0];
       state.emojis[mountClassName] = EMOJION_STAMP();
     });
     return state;
@@ -200,7 +219,7 @@
 
       // set a value on our html attribute (ie. class = " emojion__container") -> add to dom element
       containerClass.value = "emojion__container";
-      containerMapId.value = mount.className.split(' ')[0];
+      containerMapId.value = mount.className.split(" ")[0];
       emojiContainer.setAttributeNode(containerClass);
       emojiContainer.setAttributeNode(containerMapId);
 
@@ -228,7 +247,7 @@
           //  unique id to DOM + Data Strutcure => for adding click el's later.
           emoji.id = `${id}_${index}`;
           return `<button id="${emoji.id}" class="emojion__single">
-            ${emoji.icon} ${emoji.count}
+            <span class="emojion__icon">${emoji.icon}</span><span class="emojion__count">${emoji.count}</span>
           </button>`;
         })
         .join(""); // remove commas between elements
