@@ -2,12 +2,16 @@ const makeEmojionBars = require("../index.js").makeEmojionBars;
 
 const _defaultState = {
   dom: {
-    mounts: [{ id: "emojion-1" }, { id: "emojion-2" }, { id: "emojion-3" }]
+    mounts: [
+      { className: "emojion-1" },
+      { className: "emojion-2" },
+      { className: "emojion-3" }
+    ]
   },
   emojis: []
 };
 
-const _emojionBarVal = [
+const _emojionbarval = [
   {
     icon: "😅",
     count: 0
@@ -29,21 +33,6 @@ const _emojionBarVal = [
     count: 0
   }
 ];
-
-const _passCondition1 = { dom: { mounts: [] } };
-
-const _singleValidElement =
-  "<div>" +
-  '  <span id="emojion-skull" />' +
-  '  <button id="button" />' +
-  "</div>";
-
-const _multipleValidElement =
-  "<div>" +
-  '  <div id="emojion-banana" />' +
-  '  <span id="emojion-skull" />' +
-  '  <button id="emojion-rocket" />' +
-  "</div>";
 
 describe("getAllIds()", () => {
   it("Should properly init emojion bar values", () => {

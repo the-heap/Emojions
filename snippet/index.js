@@ -7,7 +7,6 @@
   const EMOJION_ID = "emojion";
   const EMOJION_NAMESPACE = "emjn_"; // Different to ID
   const STYLE_ID = EMOJION_NAMESPACE + "style";
-  const NO_EMOJION_ID = "no-emojion-bar";
 
   const EMOJION_STAMP = () => [
     {
@@ -62,7 +61,7 @@
   const render = pipe(
     addStylesheet,
     populateStylesheet,
-    getAllIds,
+    getAllClasses,
     makeEmojionBars,
     makeContainers,
     populateContainers,
@@ -171,15 +170,16 @@
   }
 
   /**
-   * Get all the ids from the page,
+   * Get all the classes from the page,
    * filter out the ones we want to mount emojion bar on
    * @param {object} state
    * @returns {object} state
    */
-  function getAllIds(state) {
-    const ids = [...document.querySelectorAll("[class]")]; // -> converts nodelist to array
-    // Check if EMOJION_ID is present and if NO_EMOJION_ID class is not declared
-    const mounts = ids.filter(node => node.className.includes(EMOJION_ID) && !node.className.includes(NO_EMOJION_ID));
+  function getAllClasses(state) {
+    const classes = [...document.querySelectorAll("[class]")]; // -> converts nodelist to array
+
+    // Check if EMOJION_ID is present
+    const mounts = classes.filter(node => node.className.includes(EMOJION_ID));
     state.dom.mounts = mounts;
     return state;
   }
@@ -285,9 +285,10 @@
    * @returns {string} the extracted emojion's className
    */
   function getEmojionClassName(mount) {
-    return mount.className.split(' ')
-    .filter(className => className.includes(EMOJION_ID))
-    .join();
+    return mount.className
+      .split(" ")
+      .filter(className => className.includes(EMOJION_ID))
+      .join();
   }
 
   // =====================================================
@@ -296,7 +297,7 @@
 
   if (typeof exports !== "undefined") {
     exports.pipe = pipe;
-    exports.getAllIds = getAllIds;
+    exports.getAllClasses = getAllClasses;
     exports.makeEmojionBars = makeEmojionBars;
     exports.makeContainers = makeContainers;
     exports.populateContainers = populateContainers;
