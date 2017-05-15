@@ -177,7 +177,6 @@
    */
   function makeEmojionBars(state) {
     state.dom.mounts.forEach(mount => {
-      //This line of code assumes that 'emojion' has to be first class
       let mountClassName = getEmojionClassName(mount);
       state.emojis[mountClassName] = EMOJION_STAMP();
     });
