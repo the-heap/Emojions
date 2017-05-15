@@ -179,11 +179,7 @@
   function getAllIds(state) {
     const ids = [...document.querySelectorAll("[class]")]; // -> converts nodelist to array
     // Check if EMOJION_ID is present and if NO_EMOJION_ID class is not declared
-    const mounts = ids.filter(
-      node =>
-        node.className.includes(EMOJION_ID) &&
-        !node.className.includes(NO_EMOJION_ID)
-    );
+    const mounts = ids.filter(node => node.className.includes(EMOJION_ID) && !node.className.includes(NO_EMOJION_ID));
     state.dom.mounts = mounts;
     return state;
   }
@@ -196,8 +192,7 @@
    */
   function makeEmojionBars(state) {
     state.dom.mounts.forEach(mount => {
-      //This line of code assumes that 'emojion' has to be first class
-      let mountClassName = mount.className.split(" ")[0];
+      let mountClassName = getEmojionClassName(mount);
       state.emojis[mountClassName] = EMOJION_STAMP();
     });
     return state;
@@ -219,7 +214,7 @@
 
       // set a value on our html attribute (ie. class = " emojion__container") -> add to dom element
       containerClass.value = "emojion__container";
-      containerMapId.value = mount.className.split(" ")[0];
+      containerMapId.value = getEmojionClassName(mount);
       emojiContainer.setAttributeNode(containerClass);
       emojiContainer.setAttributeNode(containerMapId);
 
@@ -281,6 +276,18 @@
       });
     });
     return state;
+  }
+
+  /**
+   * Determine all the classes that are assoicated with passed in mount
+   * And extract emojion's classname and return it
+   * @param {object} mount
+   * @returns {string} the extracted emojion's className
+   */
+  function getEmojionClassName(mount) {
+    return mount.className.split(' ')
+    .filter(className => className.includes(EMOJION_ID))
+    .join();
   }
 
   // =====================================================
