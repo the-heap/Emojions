@@ -15,17 +15,25 @@ main =
     Html.beginnerProgram { model = init, update = update, view = view }
 
 
-type Msg
+type
+    Msg
+    -- Add an emoji to the selected list.
     = Select Emojion
+      -- Remove an emoji from the selected list.
     | Deselect Emojion
+      -- Set the target of reordering in the selected list.
     | ReorderTarget Int
+      -- Move the reorder target toward the front of the list.
     | ReorderPrev
+      -- Move the reorder target toward the back of the list.
     | ReorderNext
 
 
 type alias Model =
     { available : List Emojion
-    , selected : Zipper Emojion
+    , selected :
+        -- Uses a zipper to make reordering elements easy and safe.
+        Zipper Emojion
     , emojionsSize : Int
     , error : Maybe String
     }
@@ -37,7 +45,9 @@ type alias Emojion =
 
 init : Model
 init =
-    { available = [ "a", "b", "c", "d", "e", "f", "g", "h", "i" ]
+    { available =
+        -- dummy values
+        [ "a", "b", "c", "d", "e", "f", "g", "h", "i" ]
     , selected = Zip.empty
     , emojionsSize = 5
     , error = Nothing
@@ -69,6 +79,8 @@ update msg model =
                 |> maybeUpdateSelected model
 
 
+{-| Combine functionality from several actions which can fail when updating model.selected
+-}
 maybeUpdateSelected : Model -> Maybe (Zipper Emojion) -> Model
 maybeUpdateSelected model maybe =
     maybe
@@ -120,6 +132,8 @@ availableView : List Emojion -> List Emojion -> Html Msg
 availableView selectedList available =
     let
         selected =
+            -- Use a Set because it is faster to look things up.
+            -- Would have to change if Emojion stops being comparable.
             Set.fromList selectedList
     in
         ul [] (List.map (availableLi selected) available)
@@ -144,6 +158,13 @@ availableLi selectedSet emojion =
             ]
 
 
+emojionView : Emojion -> Html msg
+emojionView emojion =
+    div [] [ text emojion ]
+
+
+{-| The "checked" value is normally ignored when a user clicks a checkbox. By preventing default on "click", the "checked" value can do its work.
+-}
 onCheckSuppressed : (Bool -> msg) -> Attribute msg
 onCheckSuppressed f =
     onWithOptions "click"
@@ -151,17 +172,14 @@ onCheckSuppressed f =
         (JD.map f Events.targetChecked)
 
 
+{-| Choosing the right event based on the actual checked status of the emoji.
+-}
 selectSwitch : Emojion -> Bool -> Msg
 selectSwitch emojion bool =
     if bool then
         Select emojion
     else
         Deselect emojion
-
-
-emojionView : Emojion -> Html msg
-emojionView emojion =
-    div [] [ text emojion ]
 
 
 styles : List Css.Mixin -> Html.Attribute msg
