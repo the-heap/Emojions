@@ -61,7 +61,7 @@
   const render = pipe(
     addStylesheet,
     populateStylesheet,
-    getAllIds,
+    getAllClasses,
     makeEmojionBars,
     makeContainers,
     populateContainers,
@@ -113,21 +113,36 @@
       }
 
       .emojion__single {
+        display: flex;
+        align-items: center;
         background: #fff;
         border-bottom: 1px solid #eee;
         border-left: 0;
         border-right: 0;
         border-top: 1px solid #eee;
         box-sizing: content-box;
-        display: inline-block;
-        flex: 1 0 auto;
+        flex: 1;
         font-size: 16px;
         margin: 0;
         min-width: 7px;
         outline: 0;
         padding: 5px 10px 8px;
         transition: background 0.25s ease;
-        width: auto;
+      }
+
+      .emojion__icon,
+      .emojion__count {
+        flex: 1;
+      }
+
+      .emojion__icon {
+        text-align: right;
+        margin-right: 4px;
+      }
+
+      .emojion__count {
+        text-align: left;
+        margin-left: 4px;
       }
 
       .emojion__single:first-of-type {
@@ -155,14 +170,16 @@
   }
 
   /**
-   * Get all the ids from the page,
+   * Get all the classes from the page,
    * filter out the ones we want to mount emojion bar on
    * @param {object} state
    * @returns {object} state
    */
-  function getAllIds(state) {
-    const ids = [...document.querySelectorAll("[id]")]; // -> converts nodelist to array
-    const mounts = ids.filter(node => node.id.includes(EMOJION_ID));
+  function getAllClasses(state) {
+    const classes = [...document.querySelectorAll("[class]")]; // -> converts nodelist to array
+
+    // Check if EMOJION_ID is present
+    const mounts = classes.filter(node => node.className.includes(EMOJION_ID));
     state.dom.mounts = mounts;
     return state;
   }
@@ -175,7 +192,8 @@
    */
   function makeEmojionBars(state) {
     state.dom.mounts.forEach(mount => {
-      state.emojis[mount.id] = EMOJION_STAMP();
+      let mountClassName = getEmojionClassName(mount);
+      state.emojis[mountClassName] = EMOJION_STAMP();
     });
     return state;
   }
@@ -196,7 +214,7 @@
 
       // set a value on our html attribute (ie. class = " emojion__container") -> add to dom element
       containerClass.value = "emojion__container";
-      containerMapId.value = mount.id;
+      containerMapId.value = getEmojionClassName(mount);
       emojiContainer.setAttributeNode(containerClass);
       emojiContainer.setAttributeNode(containerMapId);
 
@@ -224,7 +242,7 @@
           //  unique id to DOM + Data Strutcure => for adding click el's later.
           emoji.id = `${id}_${index}`;
           return `<button id="${emoji.id}" class="emojion__single">
-            ${emoji.icon} ${emoji.count}
+            <span class="emojion__icon">${emoji.icon}</span><span class="emojion__count">${emoji.count}</span>
           </button>`;
         })
         .join(""); // remove commas between elements
@@ -260,13 +278,26 @@
     return state;
   }
 
+  /**
+   * Determine all the classes that are assoicated with passed in mount
+   * And extract emojion's classname and return it
+   * @param {object} mount
+   * @returns {string} the extracted emojion's className
+   */
+  function getEmojionClassName(mount) {
+    return mount.className
+      .split(" ")
+      .filter(className => className.includes(EMOJION_ID))
+      .join();
+  }
+
   // =====================================================
   // Exports required for automated testing.
   // =====================================================
 
   if (typeof exports !== "undefined") {
     exports.pipe = pipe;
-    exports.getAllIds = getAllIds;
+    exports.getAllClasses = getAllClasses;
     exports.makeEmojionBars = makeEmojionBars;
     exports.makeContainers = makeContainers;
     exports.populateContainers = populateContainers;
