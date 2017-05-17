@@ -1,27 +1,6 @@
 module Style exposing (..)
 
-import Css
-    exposing
-        ( Mixin
-        , alignItems
-        , backgroundColor
-        , center
-        , color
-        , column
-        , displayFlex
-        , flexDirection
-        , fontFamilies
-        , fontSize
-        , justifyContent
-        , margin
-        , padding
-        , padding2
-        , pct
-        , px
-        , rgb
-        , sansSerif
-        , zero
-        )
+import Css exposing (Mixin, alignItems, backgroundColor, center, color, column, inlineBlock, displayFlex, display, flexDirection, fontFamilies, fontSize, justifyContent, margin, padding, padding2, pct, px, rgb, sansSerif, zero)
 
 
 body : List Mixin
@@ -58,4 +37,10 @@ hs : List Mixin
 hs =
     [ margin zero
     , padding zero
+    ]
+
+
+emojionView : List Mixin
+emojionView =
+    [ fontSize (px 64)
     ]

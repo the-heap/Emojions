@@ -47,7 +47,7 @@ init : Model
 init =
     { available =
         -- dummy values
-        [ "a", "b", "c", "d", "e", "f", "g", "h", "i" ]
+        [ "👌", "🌙", "🗻", "⚓️", "🌲", "🙀", "😹", "🐦", "⚡️" ]
     , selected = Zip.empty
     , emojionsSize = 5
     , error = Nothing
@@ -139,6 +139,8 @@ availableView selectedList available =
         ul [] (List.map (availableLi selected) available)
 
 
+{-| Render an `<li>` of a pickable emojis
+-}
 availableLi : Set Emojion -> Emojion -> Html Msg
 availableLi selectedSet emojion =
     let
@@ -158,12 +160,15 @@ availableLi selectedSet emojion =
             ]
 
 
+{-| Render a single emoji wrapped in a div
+-}
 emojionView : Emojion -> Html msg
 emojionView emojion =
-    div [] [ text emojion ]
+    div [ styles Style.emojionView ] [ text emojion ]
 
 
-{-| The "checked" value is normally ignored when a user clicks a checkbox. By preventing default on "click", the "checked" value can do its work.
+{-| The "checked" value is normally ignored when a user clicks a checkbox.
+By preventing default on "click", the "checked" value can do its work.
 -}
 onCheckSuppressed : (Bool -> msg) -> Attribute msg
 onCheckSuppressed f =
