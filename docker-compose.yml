@@ -1,0 +1,10 @@
+version: '3'
+services:
+  snippet:
+    build: snippet/
+    volumes:
+      - '.:/snippet/'
+    ports:
+      - "5566:5566"
+volumes:
+  logvolume01: {}
