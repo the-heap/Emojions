@@ -13,3 +13,12 @@ services:
       # use a separate volume for node modules because using a BIND causes problems.
       # see "the node_modules trick " here :http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html
       - /home/app/snippet/node_modules
+  elm-client:
+    build:
+      context: ./client/
+    ports:
+      - '8877:8877'
+    volumes:
+      - .:/home/app/client
+      - /home/app/client/node_modules
+

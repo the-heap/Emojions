@@ -3,5 +3,7 @@
     "elm": "^0.18.0",
     "elm-live": "^2.7.4"
   },
-  "scripts" : {"serve": "elm-live Main.elm --output elm.js"}
+  "scripts" : {
+    "start": "node_modules/.bin/elm-live Main.elm --output elm.js"
+  }
 }
