@@ -8,7 +8,7 @@
     "precommit": "lint-staged",
     "test": "jest",
     "dev": "node_modules/.bin/json-server --watch backend/db.json",
-    "example": "node_modules/.bin/live-server --port=5566 --open='/example.html' "
+    "example": "node_modules/.bin/live-server --port=5566 --entry-file='example.html' "
   },
   "lint-staged": {
     "gitDir": "../",

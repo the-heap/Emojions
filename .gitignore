@@ -2,3 +2,4 @@ node_modules
 elm-stuff
 coverage
 elm.js
+npm-debug.log
