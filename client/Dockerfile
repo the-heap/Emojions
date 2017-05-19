@@ -9,6 +9,7 @@ ENV HOME=/home/app
 
 # Copy over our package json to the home folder
 COPY package.json $HOME/client/
+COPY elm-package.json $HOME/client/
 
 # We need to change ownership as files are copied to a root user permission set
 RUN chown -R app:app $HOME/*
@@ -17,10 +18,8 @@ RUN chown -R app:app $HOME/*
 USER app
 
 # I don't know why this has to exist twice. (client)
-# Write now the siblings of `/snippet` are copied over. shouldn't be?
 WORKDIR $HOME/client/client
 
 RUN npm install
-RUN elm-package install
 
 CMD ["npm", "start"]

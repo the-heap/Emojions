@@ -21,4 +21,4 @@ services:
     volumes:
       - .:/home/app/client
       - /home/app/client/node_modules
-
+      - /home/app/client/elm_stuff

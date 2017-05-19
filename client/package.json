@@ -4,6 +4,7 @@
     "elm-live": "^2.7.4"
   },
   "scripts" : {
-    "start": "node_modules/.bin/elm-live Main.elm --output elm.js"
+    "start": "node_modules/.bin/elm-live Main.elm --output elm.js",
+    "postinstall": "node_modules/.bin/elm-package install --yes"
   }
 }
