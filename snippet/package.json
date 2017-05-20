@@ -40,12 +40,19 @@
     }
   },
   "devDependencies": {
+    "css-loader": "^0.28.1",
+    "elm-webpack-loader": "^4.3.1",
+    "file-loader": "^0.11.1",
     "husky": "^0.13.3",
     "jest": "^19.0.2",
     "lint-staged": "^3.4.0",
     "live-server": "^1.2.0",
     "prettier": "^1.2.2",
-    "sinon": "^2.1.0"
+    "sinon": "^2.1.0",
+    "style-loader": "^0.17.0",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.5.1",
+    "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
     "json-server": "^0.10.0"

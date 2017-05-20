@@ -1,10 +1,18 @@
 {
   "devDependencies": {
+    "css-loader": "^0.28.1",
     "elm": "^0.18.0",
-    "elm-live": "^2.7.4"
+    "elm-live": "^2.7.4",
+    "elm-webpack-loader": "^4.3.1",
+    "file-loader": "^0.11.1",
+    "style-loader": "^0.17.0",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.5.1",
+    "webpack-dev-server": "^2.4.5"
   },
-  "scripts" : {
-    "start": "node_modules/.bin/elm-live Main.elm --output elm.js",
-    "postinstall": "node_modules/.bin/elm-package install --yes"
+  "scripts": {
+    "postinstall": "node_modules/.bin/elm-package install --yes",
+    "start": "node_modules/.bin/webpack-dev-server --port 4001",
+    "build": "webpack"
   }
 }

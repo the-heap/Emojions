@@ -3,3 +3,4 @@ elm-stuff
 coverage
 elm.js
 npm-debug.log
+client/dist
