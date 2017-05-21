@@ -87,7 +87,7 @@
    * @param {any} state
    */
   function apiGetEmojis(state) {
-    fetch("http://localhost:3000/db")
+    fetch("http://localhost:5000/getEmojisCount")
       .then(response => response.json())
       .then(response => {
         state.apiData = response;
