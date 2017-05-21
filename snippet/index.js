@@ -64,11 +64,17 @@
     domGetMounts,
     apiGetEmojis,
     styleCreateSheet,
-    styleUpdateSheet,
-    domMakeEmojionBars,
-    domMakeContainers,
-    renderContainers,
-    updateEmojiCount
+    styleUpdateSheet
+
+    // instead of running the pipe here with async issues we can move the
+    // following function invocations into the apiGetEmojis and it will work
+    // however this is hacky and we need to figure out how to use promises
+    // to do what we want.
+
+    // domMakeEmojionBars,
+    // domMakeContainers,
+    // renderContainers,
+    // updateEmojiCount
   )(state);
 
   // Network Functions =========================================================
@@ -86,15 +92,23 @@
       .then(response => {
         state.apiData = response;
         state.dom.mounts.forEach(mount => {
-          state.apiData.emojions.forEach(data => {
-            var domElementName = getEmojionClassName(mount);
-            if (domElementName === data.id) {
-              state.emojis[domElementName] = data.emoji;
-            }
-          });
+          var domElementName = getEmojionClassName(mount);
+          console.log(
+            "domelementname on apidata is",
+            state.apiData[domElementName]
+          );
+          if (state.apiData[domElementName]) {
+            //move the data over to the front ened store
+            state.emojis[domElementName] = state.apiData[domElementName];
+          }
         });
+
+        // async and back in action
+        domMakeEmojionBars(state);
+        domMakeContainers(state);
+        renderContainers(state);
+        updateEmojiCount(state);
       });
-    console.log(state);
     return state;
   }
 
@@ -222,7 +236,6 @@
   function domMakeEmojionBars(state) {
     state.dom.mounts.forEach(mount => {
       let mountClassName = getEmojionClassName(mount);
-      // make sure we don't overwrite data already from the api
       if (!state.emojis[mountClassName]) {
         state.emojis[mountClassName] = EMOJION_STAMP();
       }
@@ -269,7 +282,7 @@
   function renderContainers(state) {
     state.dom.containers.forEach(container => {
       const id = container.attributes.data_map_id.value;
-
+      console.log("render containers", state.emojis[id], id);
       container.innerHTML = state.emojis[id]
         .map((emoji, index) => {
           //  unique id to DOM + Data Strutcure => for adding click el's later.
