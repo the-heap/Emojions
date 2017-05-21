@@ -66,7 +66,7 @@
     styleCreateSheet,
     styleUpdateSheet,
     domMakeEmojionBars,
-    domMakeContainers,
+    domMakeEmojionBar,
     renderContainers,
     updateEmojiCount
   )(state);
@@ -239,7 +239,7 @@
    * @param {obj} state
    * @returns {obj} state - our custom dom containers for our emoji bars
    */
-  function domMakeContainers(state) {
+  function domMakeEmojionBar(state) {
     state.dom.mounts.forEach(mount => {
       // make our element + attributes
       let emojiContainer = document.createElement("DIV");
@@ -336,7 +336,7 @@
     exports.pipe = pipe;
     exports.getAllClasses = domGetMounts;
     exports.makeEmojionBars = domMakeEmojionBars;
-    exports.makeContainers = domMakeContainers;
+    exports.makeContainers = domMakeEmojionBar;
     exports.populateContainers = renderContainers;
   }
 })();
