@@ -62,26 +62,19 @@
 
   const render = pipe(
     domGetMounts,
-    apiGetEmojis,
+    apiGetEmojis, // async
     styleCreateSheet,
-    styleUpdateSheet
-
-    // instead of running the pipe here with async issues we can move the
-    // following function invocations into the apiGetEmojis and it will work
-    // however this is hacky and we need to figure out how to use promises
-    // to do what we want.
-
-    // domMakeEmojionBars,
-    // domMakeContainers,
-    // renderContainers,
-    // updateEmojiCount
+    styleUpdateSheet,
+    domMakeEmojionBars,
+    domMakeContainers,
+    renderContainers,
+    updateEmojiCount
   )(state);
 
   // Network Functions =========================================================
 
   /**
    * - Request API for emojis by user's unique ID
-   * - TODO: Only run this on page load?
    * - Check if dom mounts id's match data from back end
    * - If yes; populate the corresponding state data forEach mount
    * @param {any} state
@@ -91,21 +84,18 @@
       .then(response => response.json())
       .then(response => {
         state.apiData = response;
+
+        // we move return data to the "emoji state" so that we don't end up
+        // mutating the original api data that came in. Keeping the original
+        // API could be useful to diffing something before making a post request
         state.dom.mounts.forEach(mount => {
           var domElementName = getEmojionClassName(mount);
-          console.log(
-            "domelementname on apidata is",
-            state.apiData[domElementName]
-          );
           if (state.apiData[domElementName]) {
-            //move the data over to the front ened store
             state.emojis[domElementName] = state.apiData[domElementName];
           }
         });
 
-        // async and back in action
-        domMakeEmojionBars(state);
-        domMakeContainers(state);
+        // Update state from back end once it resolves
         renderContainers(state);
         updateEmojiCount(state);
       });
@@ -222,7 +212,6 @@
   function domGetMounts(state) {
     const classes = [...document.querySelectorAll("[class]")];
     const mounts = classes.filter(node => node.className.includes(EMOJION_ID));
-    // need to check if dom mount already exists so that we don't overwrite api data.
     state.dom.mounts = mounts;
     return state;
   }
@@ -282,7 +271,6 @@
   function renderContainers(state) {
     state.dom.containers.forEach(container => {
       const id = container.attributes.data_map_id.value;
-      console.log("render containers", state.emojis[id], id);
       container.innerHTML = state.emojis[id]
         .map((emoji, index) => {
           //  unique id to DOM + Data Strutcure => for adding click el's later.
@@ -322,7 +310,6 @@
         });
       });
     });
-    console.log("end of pipe", state);
     return state;
   }
 
