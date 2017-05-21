@@ -1,22 +1,23 @@
 from flask import Flask, jsonify
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app)
 
-DATABASE = '/snippet.db'
-
+# Temporary dummy database
 emoji = {
   "emojion_asdf": [{
-      "count": 3,
+      "count": 1,
       "icon": "💩",
       "id": "emojion_asdf_0"
     },
     {
-      "count": 1,
+      "count": 3,
       "icon": "😱",
       "id": "emojion_asdf_1"
     },
     {
-      "count": 9,
+      "count": 3,
       "icon": "✅",
       "id": "emojion_asdf_2"
     },
@@ -33,21 +34,25 @@ emoji = {
   ]
 }
 
-#Initial route to connect to an HTTP endpoint
-@app.route('/')
-def index():
-    return "Hello World!"
-
 @app.route('/getEmojisCount', methods=['GET'])
 def getEmojis():
-    return jsonify({'emojis': emoji})
-    pass
+    ''' Returns emoji count '''
+    return jsonify(emoji)
 
 @app.route('/saveEmojis', methods=['POST'])
 def saveEmojis():
     # Code stub TODO
     pass
 
-    if __name__ == '__main__':
-        app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
+
+'''
+Install pip packages (inside directory):
+pip install 
+
+To initialize server:
+export FLASK_APP=app.py
+python -m flask run 
+'''
 
