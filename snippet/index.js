@@ -91,7 +91,7 @@
       .then(response => response.json())
       .then(response => {
         state.apiData = response;
-        console.log(response);
+
         // we move return data to the "emoji state" so that we don't end up
         // mutating the original api data that came in. Keeping the original
         // API could be useful to diffing something before making a post request
