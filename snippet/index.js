@@ -1,7 +1,7 @@
 ~(function() {
-  // =====================================================
+  // ===========================================================================
   // SETUP (vars, conts, function pipe)
-  // =====================================================
+  // ===========================================================================
 
   // Constants
   const EMOJION_ID = "emojion";
@@ -42,43 +42,75 @@
 
   /**
    * The All Magical, Beautiful Function Pipe!
-   * Creates a function which will run a series of functions into one another in the provided order.
-   * Since it returns a function, this can be reused as a function provided with newly provided arguments.
+   * Creates a function which will run a series of functions into one another
+   * in the provided order, Since it returns a function, this can be reused as
+   * a function provided with newly provided arguments.
    *
-   * @param {...Function} functions An unknown number of functions, add as many as you require.
-   * @returns {Function} A single function that can be called to run all provided functions on given
-   * data in the originally provided order.
+   * @param {...Function} functions An unknown number of functions;
+   * add as many as you require.
+   * @returns {Function} A single function that can be called to run all
+   * provided functions on given data in the originally provided order.
    */
   function pipe(...functions) {
     return functions.reduce((accumulatedFuncs, currentFunc) => (...args) =>
       currentFunc(accumulatedFuncs(...args)));
   }
 
-  // =====================================================
+  // ===========================================================================
   // THE FUNCTION PIPE IN ACTION!!!
-  // =====================================================
+  // ===========================================================================
 
   const render = pipe(
-    addStylesheet,
-    populateStylesheet,
-    getAllClasses,
-    makeEmojionBars,
-    makeContainers,
-    populateContainers,
-    incrementEmojiCount
+    domGetMounts,
+    apiGetEmojis, // async
+    styleCreateSheet,
+    styleUpdateSheet,
+    domMakeEmojionBars,
+    domMakeEmojionBar,
+    renderContainers,
+    updateEmojiCount
   )(state);
 
-  // =====================================================
-  // Create the functions that will feed into the pipe.
-  // =====================================================
+  // Network Functions =========================================================
 
   /**
-   * Create the style element to style our emoji bar,
-   * add an id to it and append it to the head of the page
+   * - Request API for emojis by user's unique ID
+   * - Check if dom mounts id's match data from back end
+   * - If yes; populate the corresponding state data forEach mount
+   * @param {any} state
+   */
+  function apiGetEmojis(state) {
+    fetch("http://localhost:3000/db")
+      .then(response => response.json())
+      .then(response => {
+        state.apiData = response;
+
+        // we move return data to the "emoji state" so that we don't end up
+        // mutating the original api data that came in. Keeping the original
+        // API could be useful to diffing something before making a post request
+        state.dom.mounts.forEach(mount => {
+          var domElementName = getEmojionClassName(mount);
+          if (state.apiData[domElementName]) {
+            state.emojis[domElementName] = state.apiData[domElementName];
+          }
+        });
+
+        // Update state from back end once it resolves
+        renderContainers(state);
+        updateEmojiCount(state);
+      });
+    return state;
+  }
+
+  // Styling Functions =========================================================
+
+  /**
+   * - Create the style element to style our emoji bar,
+   * - add an id to it and append it to the head of the page
    * @param {object} state
    * @returns {object} state
    */
-  function addStylesheet(state) {
+  function styleCreateSheet(state) {
     let styleElement = document.createElement("style");
     let stylesheet = styleElement.sheet;
     let styleId = document.createAttribute("id");
@@ -94,7 +126,7 @@
    * @param {object} state
    * @returns {object} state
    */
-  function populateStylesheet(state) {
+  function styleUpdateSheet(state) {
     var style = document.getElementById(STYLE_ID);
 
     // Style emojion bars
@@ -165,54 +197,56 @@
         background: #fff;
       }
   `;
-
     return state;
   }
 
+  // Dom Manipulation ==========================================================
+
   /**
-   * Get all the classes from the page,
-   * filter out the ones we want to mount emojion bar on
+   * - Get all the classes from the page (convert nodelist -> array)
+   * - filter out the ones we want to mount emojion bar on
+   * - TODO: If there are zero dom Mounts on page; find way to short circuit pipe
    * @param {object} state
    * @returns {object} state
    */
-  function getAllClasses(state) {
-    const classes = [...document.querySelectorAll("[class]")]; // -> converts nodelist to array
-
-    // Check if EMOJION_ID is present
+  function domGetMounts(state) {
+    const classes = [...document.querySelectorAll("[class]")];
     const mounts = classes.filter(node => node.className.includes(EMOJION_ID));
     state.dom.mounts = mounts;
     return state;
   }
 
   /**
-   * Loop through the dom elements that need an emojion bar
-   * Generate a new emojio stamp for that dom element.
+   * - Loop through the dom elements that need an emojion bar
+   * - Generate a new emojion stamp for that dom element.
    * @param {object} state
    * @returns {object} state - now with emoji structures
    */
-  function makeEmojionBars(state) {
+  function domMakeEmojionBars(state) {
     state.dom.mounts.forEach(mount => {
       let mountClassName = getEmojionClassName(mount);
-      state.emojis[mountClassName] = EMOJION_STAMP();
+      if (!state.emojis[mountClassName]) {
+        state.emojis[mountClassName] = EMOJION_STAMP();
+      }
     });
+    console.log(state);
     return state;
   }
 
   /**
-   * Create our own dom element to actually mount our emojion bar in
-   * This is different than the mounts that user specifices for where they want the bar.
-   * TODO: Rename this.
+   * - Create our _own_ dom element to mount our emojion bar in
+   * - Different from mounts that user specifices for where they want the bar.
    * @param {obj} state
    * @returns {obj} state - our custom dom containers for our emoji bars
    */
-  function makeContainers(state) {
+  function domMakeEmojionBar(state) {
     state.dom.mounts.forEach(mount => {
       // make our element + attributes
       let emojiContainer = document.createElement("DIV");
       let containerClass = document.createAttribute("class");
       const containerMapId = document.createAttribute("data_map_id");
 
-      // set a value on our html attribute (ie. class = " emojion__container") -> add to dom element
+      // set a value on our html attribute to interact with later
       containerClass.value = "emojion__container";
       containerMapId.value = getEmojionClassName(mount);
       emojiContainer.setAttributeNode(containerClass);
@@ -224,25 +258,26 @@
     return state;
   }
 
+  // Z. Model / View Funcs =====================================================
+
   /**
-   * - Go through all of OUR containers, and fill out the emojion bar
-   * - Pair Dom elements up with data structure so they receive the correct emojion bar
-   * - needs to generate an id for the html for the emoji but _also gets written_ to the data structure:
-   * - ie: `<button id="emojion_bar_01">` should match the struct:
-   * - `state.emojis.emojion_bar_asdf[0]` => `{ icon: "😅", count: 0, id: "emojion_bar_asdf_01" }`
+   * - Loop through our view (containers), and fill with data (state.emojis)
+   * - Here we create an ID for both the dom elements and the data struct;
+   * So that they can communicate with each other. Example:
+   * - ie: `<button id="emojion_bar_01">` === `state.emojis.emojion_bar_01 ...`
    * @param {object} state
    * @returns
    */
-  function populateContainers(state) {
+  function renderContainers(state) {
     state.dom.containers.forEach(container => {
       const id = container.attributes.data_map_id.value;
-
       container.innerHTML = state.emojis[id]
         .map((emoji, index) => {
           //  unique id to DOM + Data Strutcure => for adding click el's later.
           emoji.id = `${id}_${index}`;
           return `<button id="${emoji.id}" class="emojion__single">
-            <span class="emojion__icon">${emoji.icon}</span><span class="emojion__count">${emoji.count}</span>
+            <span class="emojion__icon">${emoji.icon}</span>
+            <span class="emojion__count">${emoji.count}</span>
           </button>`;
         })
         .join(""); // remove commas between elements
@@ -257,7 +292,7 @@
    * @param {object} state
    * @returns {object}
    */
-  function incrementEmojiCount(state) {
+  function updateEmojiCount(state) {
     state.dom.containers.forEach(container => {
       let containerId = container.attributes.data_map_id.value;
       let emojions = [...container.children];
@@ -270,13 +305,15 @@
           payload.count++;
 
           // refresh the dom / data state
-          populateContainers(state);
-          incrementEmojiCount(state);
+          renderContainers(state);
+          updateEmojiCount(state);
         });
       });
     });
     return state;
   }
+
+  // Z. Helpers ================================================
 
   /**
    * Determine all the classes that are assoicated with passed in mount
@@ -297,9 +334,9 @@
 
   if (typeof exports !== "undefined") {
     exports.pipe = pipe;
-    exports.getAllClasses = getAllClasses;
-    exports.makeEmojionBars = makeEmojionBars;
-    exports.makeContainers = makeContainers;
-    exports.populateContainers = populateContainers;
+    exports.getAllClasses = domGetMounts;
+    exports.makeEmojionBars = domMakeEmojionBars;
+    exports.makeContainers = domMakeEmojionBar;
+    exports.populateContainers = renderContainers;
   }
 })();
