@@ -1,7 +1,7 @@
 ~(function() {
-  // =====================================================
+  // ===========================================================================
   // SETUP (vars, conts, function pipe)
-  // =====================================================
+  // ===========================================================================
 
   // Constants
   const EMOJION_ID = "emojion";
@@ -42,23 +42,26 @@
 
   /**
    * The All Magical, Beautiful Function Pipe!
-   * Creates a function which will run a series of functions into one another in the provided order.
-   * Since it returns a function, this can be reused as a function provided with newly provided arguments.
+   * Creates a function which will run a series of functions into one another
+   * in the provided order, Since it returns a function, this can be reused as
+   * a function provided with newly provided arguments.
    *
-   * @param {...Function} functions An unknown number of functions, add as many as you require.
-   * @returns {Function} A single function that can be called to run all provided functions on given
-   * data in the originally provided order.
+   * @param {...Function} functions An unknown number of functions;
+   * add as many as you require.
+   * @returns {Function} A single function that can be called to run all
+   * provided functions on given data in the originally provided order.
    */
   function pipe(...functions) {
     return functions.reduce((accumulatedFuncs, currentFunc) => (...args) =>
       currentFunc(accumulatedFuncs(...args)));
   }
 
-  // =====================================================
+  // ===========================================================================
   // THE FUNCTION PIPE IN ACTION!!!
-  // =====================================================
+  // ===========================================================================
 
   const render = pipe(
+    getEmojis,
     addStylesheet,
     populateStylesheet,
     getAllClasses,
@@ -68,9 +71,29 @@
     incrementEmojiCount
   )(state);
 
-  // =====================================================
+  /* ===========================================================================
   // Create the functions that will feed into the pipe.
-  // =====================================================
+   - Network Functions
+   - Styling Functions
+   - Dom Manipulation
+   - Model / View Functions (data + how it is displayed)
+   - Helpers
+  // ======================================================================== */
+
+  // Network Functions =========================================================
+
+  /**
+   * Request API for emojis by user's unique ID
+   * @param {any} state
+   */
+  function getEmojis(state) {
+    fetch("http://localhost:3000/db")
+      .then(res => res.json())
+      .then(res => console.log(res));
+    return state;
+  }
+
+  // Styling Functions =========================================================
 
   /**
    * Create the style element to style our emoji bar,
@@ -165,18 +188,21 @@
         background: #fff;
       }
   `;
-
     return state;
   }
+
+  // Dom Manipulation ==========================================================
 
   /**
    * Get all the classes from the page,
    * filter out the ones we want to mount emojion bar on
+   * TODO: instead of querying all classes, query by our emojion id!
    * @param {object} state
    * @returns {object} state
    */
   function getAllClasses(state) {
-    const classes = [...document.querySelectorAll("[class]")]; // -> converts nodelist to array
+    // convert our dom node list of classes to an array
+    const classes = [...document.querySelectorAll("[class]")];
 
     // Check if EMOJION_ID is present
     const mounts = classes.filter(node => node.className.includes(EMOJION_ID));
@@ -186,7 +212,7 @@
 
   /**
    * Loop through the dom elements that need an emojion bar
-   * Generate a new emojio stamp for that dom element.
+   * Generate a new emojion stamp for that dom element.
    * @param {object} state
    * @returns {object} state - now with emoji structures
    */
@@ -199,9 +225,8 @@
   }
 
   /**
-   * Create our own dom element to actually mount our emojion bar in
-   * This is different than the mounts that user specifices for where they want the bar.
-   * TODO: Rename this.
+   * Create our _own_ dom element to mount our emojion bar in
+   * Different than the mounts that user specifices for where they want the bar.
    * @param {obj} state
    * @returns {obj} state - our custom dom containers for our emoji bars
    */
@@ -212,7 +237,7 @@
       let containerClass = document.createAttribute("class");
       const containerMapId = document.createAttribute("data_map_id");
 
-      // set a value on our html attribute (ie. class = " emojion__container") -> add to dom element
+      // set a value on our html attribute to interact with later
       containerClass.value = "emojion__container";
       containerMapId.value = getEmojionClassName(mount);
       emojiContainer.setAttributeNode(containerClass);
@@ -224,12 +249,13 @@
     return state;
   }
 
+  // Z. Model / View Funcs =====================================================
+
   /**
-   * - Go through all of OUR containers, and fill out the emojion bar
-   * - Pair Dom elements up with data structure so they receive the correct emojion bar
-   * - needs to generate an id for the html for the emoji but _also gets written_ to the data structure:
-   * - ie: `<button id="emojion_bar_01">` should match the struct:
-   * - `state.emojis.emojion_bar_asdf[0]` => `{ icon: "😅", count: 0, id: "emojion_bar_asdf_01" }`
+   * - Loop through our view (containers), and fill with data (state.emojis)
+   * - Here we create an ID for both the dom elements and the data struct;
+   * So that they can communicate with each other. Example:
+   * - ie: `<button id="emojion_bar_01">` === `state.emojis.emojion_bar_01 ...`
    * @param {object} state
    * @returns
    */
@@ -242,7 +268,8 @@
           //  unique id to DOM + Data Strutcure => for adding click el's later.
           emoji.id = `${id}_${index}`;
           return `<button id="${emoji.id}" class="emojion__single">
-            <span class="emojion__icon">${emoji.icon}</span><span class="emojion__count">${emoji.count}</span>
+            <span class="emojion__icon">${emoji.icon}</span>
+            <span class="emojion__count">${emoji.count}</span>
           </button>`;
         })
         .join(""); // remove commas between elements
@@ -277,6 +304,8 @@
     });
     return state;
   }
+
+  // Z. Helpers ================================================
 
   /**
    * Determine all the classes that are assoicated with passed in mount
