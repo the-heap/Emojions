@@ -62,7 +62,7 @@
 
   const render = pipe(
     domGetMounts,
-    apiGetEmojis, // async
+    apiGetEmojis,
     styleCreateSheet,
     styleUpdateSheet,
     domMakeEmojionBars,
@@ -70,6 +70,13 @@
     renderContainers,
     updateEmojiCount
   )(state);
+
+  /* ===========================================================================
+   Below are the Function Definitions that go into our pipe. Note: These are
+   organized by what category the fit into. If you are writing a new function
+   please prefix the name with what it does as well as group it accordingly.
+   Example — anything css related -> `function styleMyCoolFunction () { ... }
+   ========================================================================== */
 
   // Network Functions =========================================================
 
@@ -205,7 +212,7 @@
   /**
    * - Get all the classes from the page (convert nodelist -> array)
    * - filter out the ones we want to mount emojion bar on
-   * - TODO: If there are zero dom Mounts on page; find way to short circuit pipe
+   * - TODO: If there are 0 dom Mounts on page; find way to short circuit pipe?
    * @param {object} state
    * @returns {object} state
    */
@@ -258,7 +265,7 @@
     return state;
   }
 
-  // Z. Model / View Funcs =====================================================
+  // Model / View Funcs ========================================================
 
   /**
    * - Loop through our view (containers), and fill with data (state.emojis)
@@ -313,7 +320,7 @@
     return state;
   }
 
-  // Z. Helpers ================================================
+  // Helpers ===================================================================
 
   /**
    * Determine all the classes that are assoicated with passed in mount
@@ -328,9 +335,9 @@
       .join();
   }
 
-  // =====================================================
+  // ===========================================================================
   // Exports required for automated testing.
-  // =====================================================
+  // ===========================================================================
 
   if (typeof exports !== "undefined") {
     exports.pipe = pipe;
