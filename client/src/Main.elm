@@ -186,7 +186,7 @@ availableLi selectedSet emojion =
         selected =
             Set.member emojion selectedSet
     in
-        li [ styles Style.availableLi ]
+        li [ styles (Style.availableLi selected) ]
             [ label []
                 [ input
                     [ type_ "checkbox"

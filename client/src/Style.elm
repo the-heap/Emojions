@@ -63,14 +63,26 @@ availableView =
 
 
 {-| Style the li's that contain an emoji
+Has a base style set, but is augmented if an emoji is selected
 -}
-availableLi : List Mixin
-availableLi =
-    [ listStyleType none
-    , justifyContent center
-    , padding (px 5)
-    , cursor pointer
-    ]
+availableLi : Bool -> List Mixin
+availableLi hasBeenSelected =
+    let
+        shared =
+            [ listStyleType none
+            , justifyContent center
+            , cursor pointer
+            , padding2 (px 5) (px 10)
+            ]
+
+        isSelected =
+            [ backgroundColor (rgb 100 200 200)
+            ]
+    in
+        if hasBeenSelected then
+            isSelected ++ shared
+        else
+            shared
 
 
 selectedView : List Mixin
@@ -78,7 +90,7 @@ selectedView =
     [ displayFlex
     , justifyContent center
     , alignItems center
-    , minHeight (px 150)
+    , minHeight (px 180)
     , padding (px 0)
     ]
 
