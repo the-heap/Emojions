@@ -34,7 +34,7 @@ type alias Model =
     , selected :
         -- Uses a zipper to make reordering elements easy and safe.
         Zipper Emojion
-    , emojionsSize : Int
+    , maxEmojis  : Int
     , error : Maybe String
     }
 
@@ -49,7 +49,7 @@ init =
         [ "👌", "🌙", "🗻", "⚓️", "🌲", "🙀", "😹", "🚧", "⏳", "🔑", "🔮", "🎉", "🤖",
         "🐦", "⚡️", "🖖", "👑", "🐯", "🚬", "🌒", "✨", "🍋", "🎯" ]
     , selected = Zip.empty
-    , emojionsSize = 5
+    , maxEmojis  = 5
     , error = Nothing
     }
 
@@ -58,7 +58,7 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         Select emojion ->
-            if Zip.length model.selected >= model.emojionsSize then
+            if Zip.length model.selected >= model.maxEmojis  then
                 { model | error = Just "Your Emojion bar is full, please deselect an emoji to make room." }
             else
                 { model | selected = Zip.append emojion model.selected }
