@@ -44,6 +44,15 @@ To run the snippet and see it working, you'll need to open the `example.html` pa
 
 `Client` is a bit of a tricky name (I probably could have named this better, but let's stick with it for now). The client is a small web app. The goal of the client is to _provide a place for a user to go to a page and **customize** the emojis they want to show up when they **use the snippet**. example: you run a blog and at the bottom of it you want an emojion bar with `👔🐦🐯🎩` at the bottom. The client provides a web interface that will **generate an instance of the snippet** or a user to implement.
 
+```sh
+# change directories into /client/
+cd client
+# install elm deps
+npm install
+# boot the program!
+npm start
+```
+
 1. [Install Elm](https://guide.elm-lang.org/install.html) (follow this entire guide if you can!)
 2. Go into your terminal and navigate to the folder `./client` in this repo.
 3. Run: `elm reactor`.
@@ -52,7 +61,18 @@ To run the snippet and see it working, you'll need to open the `example.html` pa
 
 **Api**
 
-// Todo
+Installation Instructions:
+
+- You'll probably want to have python3 installed. You might already, so try this out! If not, go ahead and [download + install it ](https://www.python.org/downloads/)
+
+```sh
+# change directories into the /api folder
+cd api
+# ... installing all your deps
+make setup
+# run the server! ( you will need to stop / start on change yourself.)
+make run
+```
 
 
 # Terminology
