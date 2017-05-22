@@ -40,6 +40,7 @@ hs =
 
 
 {-| Style the size of a single emoji
+Takes a float to decide the font size
 -}
 emojionView : Float -> List Mixin
 emojionView size =
@@ -47,11 +48,13 @@ emojionView size =
     , listStyleType none
     ]
 
-
 availableView : List Mixin
 availableView =
     [ displayFlex
     , justifyContent center
+    , maxWidth (pct 40)
+    , flexWrap wrap
+    , margin2 (zero) (auto)
     ]
 
 
@@ -61,6 +64,8 @@ availableLi : List Mixin
 availableLi =
     [ listStyleType none
     , justifyContent center
+    , padding (px 5)
+    , cursor pointer
     ]
 
 
@@ -68,6 +73,9 @@ selectedView : List Mixin
 selectedView =
     [ displayFlex
     , justifyContent center
+    , alignItems center
+    , minHeight (px 150)
+    , padding (px 0)
     ]
 
 
@@ -78,4 +86,5 @@ selectedLi =
     , padding (px 20)
     , displayFlex
     , textAlign center
+    , cursor pointer
     ]
