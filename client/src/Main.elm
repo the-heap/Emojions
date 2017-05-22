@@ -34,7 +34,7 @@ type alias Model =
     , selected :
         -- Uses a zipper to make reordering elements easy and safe.
         Zipper Emojion
-    , maxEmojis  : Int
+    , maxEmojis : Int
     , error : Maybe String
     }
 
@@ -46,10 +46,31 @@ type alias Emojion =
 init : Model
 init =
     { available =
-        [ "👌", "🌙", "🗻", "⚓️", "🌲", "🙀", "😹", "🚧", "⏳", "🔑", "🔮", "🎉", "🤖",
-        "🐦", "⚡️", "🖖", "👑", "🐯", "🚬", "🌒", "✨", "🍋", "🎯" ]
+        [ "👌"
+        , "🌙"
+        , "🗻"
+        , "⚓️"
+        , "🌲"
+        , "🙀"
+        , "😹"
+        , "🚧"
+        , "⏳"
+        , "🔑"
+        , "🔮"
+        , "🎉"
+        , "🐦"
+        , "⚡️"
+        , "🖖"
+        , "👑"
+        , "🐯"
+        , "🚬"
+        , "🌒"
+        , "✨"
+        , "🍋"
+        , "🎯"
+        ]
     , selected = Zip.empty
-    , maxEmojis  = 5
+    , maxEmojis = 5
     , error = Nothing
     }
 
@@ -58,7 +79,7 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         Select emojion ->
-            if Zip.length model.selected >= model.maxEmojis  then
+            if Zip.length model.selected >= model.maxEmojis then
                 { model | error = Just "Your Emojion bar is full, please deselect an emoji to make room." }
             else
                 { model | selected = Zip.append emojion model.selected }
@@ -98,8 +119,7 @@ view model =
                 [ text "Custom Emoji Reaction Bars for your sweet site." ]
             ]
         , selectedView model.selected
-        , button [ onClick ReorderPrev ] [ text "Up" ]
-        , button [ onClick ReorderNext ] [ text "Down" ]
+        , moveButtonsView
         , availableView (Zip.toList model.selected) model.available
         ]
 
@@ -125,6 +145,16 @@ selectedLi reorderSelect index emojion =
             text "selected"
           else
             text ""
+        ]
+
+
+{-| View: Buttons that rearrange emoji order in selectedView
+-}
+moveButtonsView : Html Msg
+moveButtonsView =
+    div [ styles Style.moveButtonsView ]
+        [ button [ styles Style.moveArrow, onClick ReorderPrev ] [ text "⬅️" ]
+        , button [ styles Style.moveArrow, onClick ReorderNext ] [ text "➡️" ]
         ]
 
 

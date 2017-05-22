@@ -6,6 +6,9 @@ import Css exposing (..)
 body : List Mixin
 body =
     [ fontSize (px 12)
+    , displayFlex
+    , flexDirection column
+    , justifyContent center
     , fontFamilies [ "Arial", "Helvetica", .value sansSerif ]
     ]
 
@@ -48,6 +51,7 @@ emojionView size =
     , listStyleType none
     ]
 
+
 availableView : List Mixin
 availableView =
     [ displayFlex
@@ -87,4 +91,28 @@ selectedLi =
     , displayFlex
     , textAlign center
     , cursor pointer
+    ]
+
+
+moveButtonsView : List Mixin
+moveButtonsView =
+    [ displayFlex
+    , backgroundColor (rgb 230 235 236)
+    , alignSelf center
+    , justifyContent center
+    , margin (px 10)
+    , borderRadius (px 5)
+    ]
+
+
+
+-- Buttons that are used to move emojis left and right in order.
+
+
+moveArrow : List Mixin
+moveArrow =
+    [ backgroundColor (rgba 0 0 0 0)
+    , fontSize (px 24)
+    , border (zero)
+    , padding2 (px 5) (px 15)
     ]
