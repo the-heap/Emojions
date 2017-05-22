@@ -27,6 +27,8 @@ type
     | ReorderPrev
       -- Move the reorder target toward the back of the list.
     | ReorderNext
+      -- Remove all selected emojis and start with a clean slate.
+    | ClearAll
 
 
 type alias Model =
@@ -99,6 +101,9 @@ update msg model =
             Zip.moveBy 1 model.selected
                 |> maybeUpdateSelected model
 
+        ClearAll ->
+            { model | selected = Zip.empty }
+
 
 {-| Combine functionality from several actions which can fail when updating model.selected
 -}
@@ -153,8 +158,10 @@ selectedLi reorderSelect index emojion =
 moveButtonsView : Html Msg
 moveButtonsView =
     div [ styles Style.moveButtonsView ]
-        [ button [ styles Style.moveArrow, onClick ReorderPrev ] [ text "⬅️" ]
-        , button [ styles Style.moveArrow, onClick ReorderNext ] [ text "➡️" ]
+        [ button [ onClick ReorderPrev ] [ text "Move left" ]
+        , button [ onClick ReorderNext ] [ text "Move right" ]
+        , button [] [ text "Create snippet" ]
+        , button [ onClick ClearAll ] [ text "Clear all" ]
         ]
 
 
