@@ -1,6 +1,6 @@
 module Style exposing (..)
 
-import Css exposing (Mixin, alignItems, backgroundColor, center, color, column, inlineBlock, displayFlex, display, flexDirection, fontFamilies, fontSize, justifyContent, margin, padding, padding2, pct, px, rgb, sansSerif, zero)
+import Css exposing (..)
 
 
 body : List Mixin
@@ -36,11 +36,46 @@ html =
 hs : List Mixin
 hs =
     [ margin zero
-    , padding zero
     ]
 
 
-emojionView : List Mixin
-emojionView =
-    [ fontSize (px 64)
+{-| Style the size of a single emoji
+-}
+emojionView : Float -> List Mixin
+emojionView size =
+    [ fontSize (px size)
+    , listStyleType none
+    ]
+
+
+availableView : List Mixin
+availableView =
+    [ displayFlex
+    , justifyContent center
+    ]
+
+
+{-| Style the li's that contain an emoji
+-}
+availableLi : List Mixin
+availableLi =
+    [ listStyleType none
+    , justifyContent center
+    ]
+
+
+selectedView : List Mixin
+selectedView =
+    [ displayFlex
+    , justifyContent center
+    ]
+
+
+selectedLi : List Mixin
+selectedLi =
+    [ listStyleType none
+    , flexDirection column
+    , padding (px 20)
+    , displayFlex
+    , textAlign center
     ]

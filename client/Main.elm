@@ -110,7 +110,7 @@ selectedView emojions =
         reorderSelect =
             Zip.index emojions
     in
-        ul []
+        ul [ styles Style.selectedView ]
             (emojions
                 |> Zip.toList
                 |> List.indexedMap (selectedLi reorderSelect)
@@ -119,8 +119,8 @@ selectedView emojions =
 
 selectedLi : Int -> Int -> Emojion -> Html Msg
 selectedLi reorderSelect index emojion =
-    li [ onClick (ReorderTarget index) ]
-        [ emojionView emojion
+    li [ styles Style.selectedLi, onClick (ReorderTarget index) ]
+        [ emojionView emojion 75
         , if index == reorderSelect then
             text "selected"
           else
@@ -128,6 +128,8 @@ selectedLi reorderSelect index emojion =
         ]
 
 
+{-| List of emojis that are available to be selected
+-}
 availableView : List Emojion -> List Emojion -> Html Msg
 availableView selectedList available =
     let
@@ -136,7 +138,7 @@ availableView selectedList available =
             -- Would have to change if Emojion stops being comparable.
             Set.fromList selectedList
     in
-        ul [] (List.map (availableLi selected) available)
+        ul [ styles Style.availableView ] (List.map (availableLi selected) available)
 
 
 {-| Render an `<li>` of a pickable emojis
@@ -147,7 +149,7 @@ availableLi selectedSet emojion =
         selected =
             Set.member emojion selectedSet
     in
-        li []
+        li [ styles Style.availableLi ]
             [ label []
                 [ input
                     [ type_ "checkbox"
@@ -155,16 +157,16 @@ availableLi selectedSet emojion =
                     , onCheckSuppressed (selectSwitch emojion)
                     ]
                     []
-                , emojionView emojion
+                , emojionView emojion 30
                 ]
             ]
 
 
 {-| Render a single emoji wrapped in a div
 -}
-emojionView : Emojion -> Html msg
-emojionView emojion =
-    div [ styles Style.emojionView ] [ text emojion ]
+emojionView : Emojion -> Float -> Html msg
+emojionView emojion fontSize =
+    div [ styles (Style.emojionView fontSize) ] [ text emojion ]
 
 
 {-| The "checked" value is normally ignored when a user clicks a checkbox.
