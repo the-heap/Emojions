@@ -34,7 +34,7 @@ type alias Model =
     , selected :
         -- Uses a zipper to make reordering elements easy and safe.
         Zipper Emojion
-    , emojionsSize : Int
+    , maxEmojis  : Int
     , error : Maybe String
     }
 
@@ -46,10 +46,10 @@ type alias Emojion =
 init : Model
 init =
     { available =
-        -- dummy values
-        [ "a", "b", "c", "d", "e", "f", "g", "h", "i" ]
+        [ "👌", "🌙", "🗻", "⚓️", "🌲", "🙀", "😹", "🚧", "⏳", "🔑", "🔮", "🎉", "🤖",
+        "🐦", "⚡️", "🖖", "👑", "🐯", "🚬", "🌒", "✨", "🍋", "🎯" ]
     , selected = Zip.empty
-    , emojionsSize = 5
+    , maxEmojis  = 5
     , error = Nothing
     }
 
@@ -58,7 +58,7 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         Select emojion ->
-            if Zip.length model.selected >= model.emojionsSize then
+            if Zip.length model.selected >= model.maxEmojis  then
                 { model | error = Just "Your Emojion bar is full, please deselect an emoji to make room." }
             else
                 { model | selected = Zip.append emojion model.selected }
@@ -110,7 +110,7 @@ selectedView emojions =
         reorderSelect =
             Zip.index emojions
     in
-        ul []
+        ul [ styles Style.selectedView ]
             (emojions
                 |> Zip.toList
                 |> List.indexedMap (selectedLi reorderSelect)
@@ -119,8 +119,8 @@ selectedView emojions =
 
 selectedLi : Int -> Int -> Emojion -> Html Msg
 selectedLi reorderSelect index emojion =
-    li [ onClick (ReorderTarget index) ]
-        [ emojionView emojion
+    li [ styles Style.selectedLi, onClick (ReorderTarget index) ]
+        [ emojionView emojion 75
         , if index == reorderSelect then
             text "selected"
           else
@@ -128,6 +128,8 @@ selectedLi reorderSelect index emojion =
         ]
 
 
+{-| List of emojis that are available to be selected
+-}
 availableView : List Emojion -> List Emojion -> Html Msg
 availableView selectedList available =
     let
@@ -136,16 +138,18 @@ availableView selectedList available =
             -- Would have to change if Emojion stops being comparable.
             Set.fromList selectedList
     in
-        ul [] (List.map (availableLi selected) available)
+        ul [ styles Style.availableView ] (List.map (availableLi selected) available)
 
 
+{-| Render an `<li>` of a pickable emojis
+-}
 availableLi : Set Emojion -> Emojion -> Html Msg
 availableLi selectedSet emojion =
     let
         selected =
             Set.member emojion selectedSet
     in
-        li []
+        li [ styles Style.availableLi ]
             [ label []
                 [ input
                     [ type_ "checkbox"
@@ -153,17 +157,20 @@ availableLi selectedSet emojion =
                     , onCheckSuppressed (selectSwitch emojion)
                     ]
                     []
-                , emojionView emojion
+                , emojionView emojion 30
                 ]
             ]
 
 
-emojionView : Emojion -> Html msg
-emojionView emojion =
-    div [] [ text emojion ]
+{-| Render a single emoji wrapped in a div
+-}
+emojionView : Emojion -> Float -> Html msg
+emojionView emojion fontSize =
+    div [ styles (Style.emojionView fontSize) ] [ text emojion ]
 
 
-{-| The "checked" value is normally ignored when a user clicks a checkbox. By preventing default on "click", the "checked" value can do its work.
+{-| The "checked" value is normally ignored when a user clicks a checkbox.
+By preventing default on "click", the "checked" value can do its work.
 -}
 onCheckSuppressed : (Bool -> msg) -> Attribute msg
 onCheckSuppressed f =
