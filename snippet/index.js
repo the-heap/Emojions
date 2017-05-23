@@ -106,7 +106,6 @@
         // Update state from back end once it resolves
         renderContainers(state);
         updateEmojiCount(state);
-        console.log(state.emojis);
       });
     return state;
   }
@@ -116,7 +115,6 @@
  * TODO: Add more description if this is successful
  */
   function apiPostEmojis(state) {    
-    console.log('code here');
     url = "http://localhost:5000/saveEmojis"
     fetch(url, {
       method: 'POST',
@@ -127,7 +125,6 @@
       },
       })
   .then(function(response){
-    console.log(response);
     return response.json();
   })
   .then(function(data){alert(JSON.stringify(data))})
