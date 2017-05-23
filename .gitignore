@@ -8,3 +8,4 @@ api/venv
 api/scripts/venv
 .idea
 *.pyc
+.vscode
