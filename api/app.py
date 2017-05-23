@@ -1,50 +1,26 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
+import json
 
 app = Flask(__name__)
 CORS(app)
 
 # Temporary dummy database
-emoji = {
-    "emojion_asdf": [{
-        "count": 1,
-        "icon": "💩",
-        "id": "emojion_asdf_0"
-    },
-        {
-        "count": 3,
-        "icon": "😱",
-        "id": "emojion_asdf_1"
-    },
-        {
-        "count": 3,
-        "icon": "✅",
-        "id": "emojion_asdf_2"
-    },
-        {
-        "count": 3,
-        "icon": "🙀",
-        "id": "emojion_asdf_3"
-    },
-        {
-        "count": 3,
-        "icon": "✅",
-        "id": "emojion_asdf_4"
-    }
-    ]
-}
-
+db = json.loads(open('snippet.json', 'r', encoding='utf-8').read())
 
 @app.route('/getEmojisCount', methods=['GET'])
 def getEmojis():
     ''' Returns emoji count '''
-    return jsonify(emoji)
-
+    return jsonify(db)
 
 @app.route('/saveEmojis', methods=['POST'])
 def saveEmojis():
-    # Code stub TODO
-    pass
+    if request.method == 'POST':
+        value = request.get_json()
+        with open('snippet.json', 'w', encoding='utf-8') as jsondata:
+            json.dump(value, jsondata)
+        return jsonify('Successful parse!')
 
 if __name__ == '__main__':
     app.run(debug=True)
+
