@@ -93,44 +93,36 @@
       .then(response => {
         state.apiData = response;
 
-        // we move return data to the "emoji state" so that we don't end up
-        // mutating the original api data that came in. Keeping the original
-        // API could be useful to diffing something before making a post request
-        state.dom.mounts.forEach(mount => {
-          var domElementName = getEmojionClassName(mount);
-          if (state.apiData[domElementName]) {
-            state.emojis[domElementName] = state.apiData[domElementName];
-          }
-        });
-
-        // Update state from back end once it resolves
+        diffClientFromApi(state);
         renderContainers(state);
         updateEmojiCount(state);
       });
     return state;
   }
 
-/**
- * - POST to API...
- * TODO: Add more description if this is successful
- */
-  function apiPostEmojis(state) {    
-    url = "http://localhost:5000/saveEmojis"
+  /**
+   * - POST to API...
+   * TODO: Add more description if this is successful
+   */
+  function apiPostEmojis(state) {
+    url = "http://localhost:5000/saveEmojis";
     fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(state.emojis),
       headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      })
-  .then(function(response){
-    return response.json();
-  })
-  .then(function(data){alert(JSON.stringify(data))})
-  return state;
-  }
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => response.json())
+      .then(res => {
+        diffClientFromApi(state);
+        renderContainers(state);
+        updateEmojiCount(state);
+      });
 
+    return state;
+  }
 
   // Styling Functions =========================================================
 
@@ -357,6 +349,22 @@
       .split(" ")
       .filter(className => className.includes(EMOJION_ID))
       .join();
+  }
+  /**
+   * we move return data to the "emoji state" so that we don't end up
+   * mutating the original api data that came in. Keeping the original
+   * API could be useful to diffing something before making a post request
+   * @param {any} state
+   * @returns state
+   */
+  function diffClientFromApi(state) {
+    state.dom.mounts.forEach(mount => {
+      var domElementName = getEmojionClassName(mount);
+      if (state.apiData[domElementName]) {
+        state.emojis[domElementName] = state.apiData[domElementName];
+      }
+    });
+    return state;
   }
 
   // ===========================================================================
