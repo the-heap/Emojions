@@ -8,26 +8,31 @@
   const EMOJION_NAMESPACE = "emjn_"; // Different to ID
   const STYLE_ID = EMOJION_NAMESPACE + "style";
 
-  const EMOJION_STAMP = () => [
+  const EMOJION_STAMP = parentName => [
     {
       icon: "😅",
-      count: 0
+      count: 0,
+      parent: parentName
     },
     {
       icon: "🗻",
-      count: 0
+      count: 0,
+      parent: parentName
     },
     {
       icon: "⚓",
-      count: 0
+      count: 0,
+      parent: parentName
     },
     {
       icon: "🌵",
-      count: 0
+      count: 0,
+      parent: parentName
     },
     {
       icon: "🚀",
-      count: 0
+      count: 0,
+      parent: parentName
     }
   ];
 
@@ -104,17 +109,18 @@
    * - POST to API...
    * TODO: Add more description if this is successful
    */
-  function apiPostEmojis(state) {
-    url = "http://localhost:5000/saveEmojis";
+  function apiPostEmojis(payload, route) {
+    console.log(payload);
+    url = `http://localhost:5000/${route}`;
     fetch(url, {
       method: "POST",
-      body: JSON.stringify(state.emojis),
+      body: JSON.stringify(payload),
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       }
     })
-      .then(res => response.json())
+      .then(res => res.json())
       .then(res => {
         diffClientFromApi(state);
         renderContainers(state);
@@ -240,7 +246,8 @@
 
   /**
    * - Loop through the dom elements that need an emojion bar
-   * - Generate a new emojion stamp for that dom element.
+   * - Generate a new emojion stamp (piece of state) for that dom element;
+   * - this new state references the parent it belongs to (for more efficient DB post reqs.)
    * @param {object} state
    * @returns {object} state - now with emoji structures
    */
@@ -248,10 +255,13 @@
     state.dom.mounts.forEach(mount => {
       let mountClassName = getEmojionClassName(mount);
       if (!state.emojis[mountClassName]) {
-        state.emojis[mountClassName] = EMOJION_STAMP();
+        state.emojis[mountClassName] = EMOJION_STAMP(mountClassName);
       }
     });
-    console.log(state);
+
+    // send our state to the back end as it might contain new emojion instances that haven't been initialized.
+    // this needs to happen AFTER initial get so that we don't overwrite the database?
+    apiPostEmojis(state.emojis, "save_new_emojis");
     return state;
   }
 
@@ -324,8 +334,16 @@
           let payload = state.emojis[containerId].find(emoji_data => {
             return emoji_el.id === emoji_data.id;
           });
+          console.log(payload);
           payload.count++;
-          apiPostEmojis(state);
+          // plez clean this
+          apiPostEmojis(
+            {
+              id: payload.parent,
+              data: state.emojis[payload.parent]
+            },
+            "update_emoji_count"
+          );
 
           // refresh the dom / data state
           renderContainers(state);
@@ -333,6 +351,7 @@
         });
       });
     });
+    console.log(state);
     return state;
   }
 
