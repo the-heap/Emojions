@@ -25,7 +25,7 @@ services:
     ports:
       - '4001:4001'
     # this
-    volumes
+    volumes:
       - ./client:/home/app/client
       # we install packages TO THE CONTAINER.
       # becuase we're sharing it, it'll show up locally.
