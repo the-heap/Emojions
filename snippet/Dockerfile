@@ -18,7 +18,7 @@ USER app
 
 # I don't know why this has to exist twice. (snippet/snippet)
 # Write now the siblings of `/snippet` are copied over. shouldn't be?
-WORKDIR $HOME/snippet/snippet
+WORKDIR $HOME/snippet
 
 RUN npm install
 

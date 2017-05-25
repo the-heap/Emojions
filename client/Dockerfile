@@ -19,7 +19,7 @@ RUN chown -R app:app $HOME/*
 USER app
 
 # I don't know why this has to exist twice. (client)
-WORKDIR $HOME/client/client
+WORKDIR $HOME/client
 
 RUN npm install
 

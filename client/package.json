@@ -12,7 +12,7 @@
   },
   "scripts": {
     "postinstall": "node_modules/.bin/elm-package install --yes",
-    "start": "node_modules/.bin/webpack-dev-server --port 4001",
+    "start": "node_modules/.bin/webpack-dev-server --port 4001 --host 0.0.0.0",
     "build": "webpack"
   }
 }
