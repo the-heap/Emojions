@@ -1,15 +1,20 @@
 version: '3'
 services:
+  api:
+    build:
+      context: ./api/
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./api:/home/app/api
   snippet:
     # what we are building from -> our local ap directory
     build:
       context: ./snippet/
-      # dockerfile: /Dockerfile
     ports:
       - '5566:5566'
     # mount our build path ^ into -> the following path:
     volumes:
-    #  mount /snippet/ (local) -> container: /home/app/snippet
       - ./snippet:/home/app/snippet
       # use a separate volume for node modules because using a BIND causes problems.
       # see "the node_modules trick " here :http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html
@@ -20,10 +25,10 @@ services:
     ports:
       - '4001:4001'
     # this
-    volumes:
+    volumes
       - ./client:/home/app/client
       # we install packages TO THE CONTAINER.
       # becuase we're sharing it, it'll show up locally.
       - /home/app/client/node_modules
       # remember to rename this to elm-stuff
-      - /home/app/client/elm_stuff
+      - /home/app/client/elm-stuff

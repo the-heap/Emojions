@@ -1,8 +1,8 @@
-# let's use node to run elm
-FROM node:7.10
+# This is a docker file for setting up the elm client.
 
-# We create an unprivileged user, prosaically called app; avoid running as root
-RUN useradd --user-group --create-home --shell /bin/false app
+# let's use node to run elm
+# Sadly we need the full version of node (can't use alpine, like in snippet')
+FROM node:7.10
 
 # Set an environment variable for our home folder
 ENV HOME=/home/app
@@ -12,13 +12,7 @@ COPY package.json $HOME/client/
 COPY elm-package.json $HOME/client/
 COPY webpack.config.js $HOME/client/
 
-# We need to change ownership as files are copied to a root user permission set
-RUN chown -R app:app $HOME/*
-
-# For restricting user to just the app folder ?
-USER app
-
-# I don't know why this has to exist twice. (client)
+# Set our working directory to /home/app/client - For the ELM client, INSIDE the container.
 WORKDIR $HOME/client
 
 RUN npm install
