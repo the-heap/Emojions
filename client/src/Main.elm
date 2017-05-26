@@ -27,6 +27,8 @@ type
     | ReorderPrev
       -- Move the reorder target toward the back of the list.
     | ReorderNext
+      -- Remove all selected emojis and start with a clean slate.
+    | ClearAll
 
 
 type alias Model =
@@ -34,7 +36,7 @@ type alias Model =
     , selected :
         -- Uses a zipper to make reordering elements easy and safe.
         Zipper Emojion
-    , maxEmojis  : Int
+    , maxEmojis : Int
     , error : Maybe String
     }
 
@@ -46,10 +48,31 @@ type alias Emojion =
 init : Model
 init =
     { available =
-        [ "👌", "🌙", "🗻", "⚓️", "🌲", "🙀", "😹", "🚧", "⏳", "🔑", "🔮", "🎉", "🤖",
-        "🐦", "⚡️", "🖖", "👑", "🐯", "🚬", "🌒", "✨", "🍋", "🎯" ]
+        [ "👌"
+        , "🌙"
+        , "🗻"
+        , "⚓️"
+        , "🌲"
+        , "🙀"
+        , "😹"
+        , "🚧"
+        , "⏳"
+        , "🔑"
+        , "🔮"
+        , "🎉"
+        , "🐦"
+        , "⚡️"
+        , "🖖"
+        , "👑"
+        , "🐯"
+        , "🚬"
+        , "🌒"
+        , "✨"
+        , "🍋"
+        , "🎯"
+        ]
     , selected = Zip.empty
-    , maxEmojis  = 5
+    , maxEmojis = 5
     , error = Nothing
     }
 
@@ -58,7 +81,7 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         Select emojion ->
-            if Zip.length model.selected >= model.maxEmojis  then
+            if Zip.length model.selected >= model.maxEmojis then
                 { model | error = Just "Your Emojion bar is full, please deselect an emoji to make room." }
             else
                 { model | selected = Zip.append emojion model.selected }
@@ -77,6 +100,9 @@ update msg model =
         ReorderNext ->
             Zip.moveBy 1 model.selected
                 |> maybeUpdateSelected model
+
+        ClearAll ->
+            { model | selected = Zip.empty }
 
 
 {-| Combine functionality from several actions which can fail when updating model.selected
@@ -98,8 +124,7 @@ view model =
                 [ text "Custom Emoji Reaction Bars for your sweet site." ]
             ]
         , selectedView model.selected
-        , button [ onClick ReorderPrev ] [ text "Up" ]
-        , button [ onClick ReorderNext ] [ text "Down" ]
+        , moveButtonsView
         , availableView (Zip.toList model.selected) model.available
         ]
 
@@ -128,6 +153,18 @@ selectedLi reorderSelect index emojion =
         ]
 
 
+{-| View: Buttons that rearrange emoji order in selectedView
+-}
+moveButtonsView : Html Msg
+moveButtonsView =
+    div [ styles Style.moveButtonsView ]
+        [ button [ onClick ReorderPrev ] [ text "Move left" ]
+        , button [ onClick ReorderNext ] [ text "Move right" ]
+        , button [] [ text "Create snippet" ]
+        , button [ onClick ClearAll ] [ text "Clear all" ]
+        ]
+
+
 {-| List of emojis that are available to be selected
 -}
 availableView : List Emojion -> List Emojion -> Html Msg
@@ -149,7 +186,7 @@ availableLi selectedSet emojion =
         selected =
             Set.member emojion selectedSet
     in
-        li [ styles Style.availableLi ]
+        li [ styles (Style.availableLi selected) ]
             [ label []
                 [ input
                     [ type_ "checkbox"

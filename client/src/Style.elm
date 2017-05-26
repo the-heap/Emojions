@@ -6,6 +6,9 @@ import Css exposing (..)
 body : List Mixin
 body =
     [ fontSize (px 12)
+    , displayFlex
+    , flexDirection column
+    , justifyContent center
     , fontFamilies [ "Arial", "Helvetica", .value sansSerif ]
     ]
 
@@ -48,6 +51,7 @@ emojionView size =
     , listStyleType none
     ]
 
+
 availableView : List Mixin
 availableView =
     [ displayFlex
@@ -59,14 +63,26 @@ availableView =
 
 
 {-| Style the li's that contain an emoji
+Has a base style set, but is augmented if an emoji is selected
 -}
-availableLi : List Mixin
-availableLi =
-    [ listStyleType none
-    , justifyContent center
-    , padding (px 5)
-    , cursor pointer
-    ]
+availableLi : Bool -> List Mixin
+availableLi hasBeenSelected =
+    let
+        shared =
+            [ listStyleType none
+            , justifyContent center
+            , cursor pointer
+            , padding2 (px 5) (px 10)
+            ]
+
+        isSelected =
+            [ backgroundColor (rgb 100 200 200)
+            ]
+    in
+        if hasBeenSelected then
+            isSelected ++ shared
+        else
+            shared
 
 
 selectedView : List Mixin
@@ -74,7 +90,7 @@ selectedView =
     [ displayFlex
     , justifyContent center
     , alignItems center
-    , minHeight (px 150)
+    , minHeight (px 180)
     , padding (px 0)
     ]
 
@@ -87,4 +103,28 @@ selectedLi =
     , displayFlex
     , textAlign center
     , cursor pointer
+    ]
+
+
+moveButtonsView : List Mixin
+moveButtonsView =
+    [ displayFlex
+    , backgroundColor (rgb 230 235 236)
+    , alignSelf center
+    , justifyContent center
+    , margin (px 10)
+    , borderRadius (px 5)
+    ]
+
+
+
+-- Buttons that are used to move emojis left and right in order.
+
+
+moveArrow : List Mixin
+moveArrow =
+    [ backgroundColor (rgba 0 0 0 0)
+    , fontSize (px 24)
+    , border (zero)
+    , padding2 (px 5) (px 15)
     ]
