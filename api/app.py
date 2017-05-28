@@ -1,12 +1,14 @@
 import json
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from pprint import pprint
 from tinydb import TinyDB, Query
 
 
 # ====== INITIALIZATIONS ====== #
 
 APP = Flask(__name__)
+APP.debug = True
 DB = TinyDB('db.json')
 CORS(APP)
 
@@ -18,17 +20,19 @@ CORS(APP)
 def get_emojis():
     ''' Returns emoji count '''
 
-    # serialize database request.
-    outgoing_payload = {}
+    payload = {}
     db_dump = DB.all()
 
+    # serialize database request.
     # formatting the db output to front end. tinyDB does not insert data the
     # same way as the front end is formatted. So we are creating a sorted out
-    # payload that removes ids' and keys (like "data") and sending. Not idea.
-    for key in db_dump:
-        pass
+    # payload that removes ids' and keys (like "data") and sending. Not ideal.
+    for emojion_group in db_dump:
+        e_id = emojion_group["id"]
+        e_data = emojion_group["data"][e_id]
+        payload[e_id] = e_data
 
-    return jsonify(outgoing_payload)
+    return jsonify(payload)
 
 
 @APP.route('/save_new_emojis', methods=['POST'])
