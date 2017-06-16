@@ -186,7 +186,7 @@
         margin: 0;
         min-width: 7px;
         outline: 0;
-        padding: 5px 10px 8px;
+        padding: 15px;
         transition: background 0.25s ease;
       }
 
